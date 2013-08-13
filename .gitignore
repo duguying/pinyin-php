@@ -18,4 +18,6 @@
 
 *~
 *.swp
+*.inc
 /pinyin-win
+/ctest
