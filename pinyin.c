@@ -5,7 +5,7 @@
  * The struct of a single chinese character
  */
 typedef struct character{
-	char cnch[2];//a single character
+	char cnch[3];//a single character
 	char* piny;//the pinyin char of the character
 	char* pyab;//the pinyin alphabet of the character
 	struct character* next;//point to the next character struct
