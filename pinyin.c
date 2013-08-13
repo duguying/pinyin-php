@@ -6,8 +6,8 @@
  */
 typedef struct character{
 	char cnch[3];//a single character
-	char* piny;//the pinyin char of the character
-	char* pyab;//the pinyin alphabet of the character
+	char piny[8];//the pinyin char of the character
+	char pyab[7];//the pinyin alphabet of the character
 	struct character* next;//point to the next character struct
 } cchar;
 /**
