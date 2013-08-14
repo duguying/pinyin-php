@@ -72,22 +72,36 @@ cchar* createLongLink(char* cnchar,char* pinyin,char* py){
 	int length,i;
 	length=strlen(cnchar)/2;
 	cchar* longlink=(cchar*)malloc(sizeof(cnchar)*length);
-	for(i=0;i<length;i++){//TODO
+	for(i=0;i<length;i++){
 		strcpy(longlink[i].cnch,cutCnChar(cnchar,i));
 		strcpy(longlink[i].piny,cutPinyin(pinyin,i));
 		strcpy(longlink[i].pyab,cutPinyin(py,i));
 		longlink[i].next=&longlink[i+1];
 	}
-	longlink[i+1].next=0;//set the last node's `next` pointer as null
+	longlink[i].next=0;//set the last node's `next` pointer as null
 	return longlink;//return the longlist struct
+}
+/**
+ * search the target node(`a struct`) by the key which is a chinese character
+ * @param cchar* longlist	the longlist list
+ * @param char* key			the key chinese character
+ * @return cchar*	the target list
+ */
+void searchCnChar(cchar* longlink, char* key){
+	while(longlink->next){
+		if(!strcmp(key,longlink->cnch)){//use strcmp to compare whether the two string is equal, mark `==` is not right
+			printf("equal");
+		}
+		longlink=longlink->next;
+	}
 }
 /**
  * main function
  * program entrance
  */
 int main(){
-	createLongLink(cnchar,pinyin,py);
-	//printf("%s",cutPinyin(pinyin,3));
+	cchar* ll=createLongLink(cnchar,pinyin,py);
+	searchCnChar(ll,"¿Ô");
 	return 0;
 }
 
