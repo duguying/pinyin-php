@@ -75,6 +75,9 @@ int main(){
 	cutPinyin(pinyin,0);
 	cutPinyin(pinyin,1);
 	cutPinyin(pinyin,2);
+	cutPinyin(py,0);
+	cutPinyin(py,1);
+	cutPinyin(py,2);
 	return 0;
 }
 

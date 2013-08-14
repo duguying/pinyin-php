@@ -19,12 +19,12 @@ $py="";
 /**
  * get data from database
  */
-mysql_query("use ansi",$link);
+mysql_query("use cchars",$link);
 mysql_query("set charset gb2312");
-$result=mysql_query("select * from hanzi",$link);
+$result=mysql_query("select * from hanzi order by cchar",$link);
 while($row=@mysql_fetch_array($result)){
 	//var_dump($row);
-	$char=$char.$row['char'];
+	$char=$char.$row['cchar'];
 	$pinyin=$pinyin.$row['pinyin']."|";
 	$py=$py.$row['py']."|";
 }
