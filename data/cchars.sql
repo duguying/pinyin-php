@@ -18,7 +18,7 @@ USE `cchars`;
 -- 导出  表 cchars.hanzi 结构
 CREATE TABLE IF NOT EXISTS `hanzi` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `cchar` varchar(1) NOT NULL COMMENT '汉字',
+  `cchar` varchar(1) CHARACTER SET gb2312 NOT NULL COMMENT '汉字',
   `pinyin` varchar(50) DEFAULT NULL COMMENT '拼音',
   `py` varchar(50) DEFAULT NULL COMMENT '拼音字母',
   PRIMARY KEY (`id`)
