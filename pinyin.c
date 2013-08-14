@@ -20,10 +20,14 @@ typedef struct character{
  * @return char*	the chinese character
  */
 char* cutCnChar(char* cncharlist,int i){
-	int length=sizeof(cncharlist)/2;
+	int length=strlen(cncharlist)/2;
 	int start;
 	start=i*2;
 	static char ch[3];//keep the var as static
+	if(i>length){
+		ch[0]=0;
+		return ch;
+	}
 	ch[0]=*(cncharlist+start);
 	ch[1]=*(cncharlist+start+1);
 	ch[2]=0;
@@ -39,45 +43,45 @@ char* cutPinyin(char* pinyin,int i){
 	int c=0;//count the separative sign
 	int length=strlen(pinyin);
 	int n;
-	char buf[8]={'\0','\0','\0','\0','\0','\0','\0','\0'};
+	static char buf[8]={'\0','\0','\0','\0','\0','\0','\0','\0'};
 	int m=0;//buffer increase
+	if(i>length){
+		return buf;
+	}
 	for(n=0;n<length;n++){
 		if(DE==pinyin[n]){
+			buf[m]=0;//stop the string with '\0'
 			c++;
-		};
-		if(c==i){
-			if(DE!=pinyin[n]){
+		}else{
+			if(c==i){
 				buf[m]=pinyin[n];
 				m++;
 			}
 		}
 	}
-	printf("%s\n",buf);
+	return buf;
 }
 /**
  * The long Link contain all the chinese character
  */
-cchar* createLongLink(char* cnchar,char* pinyin,char* py){//TODO
-	int i;
-	cchar* head=(cchar*)malloc(sizeof(cchar));
-	//head->cnch={cnchar[i],cnchar[i+1]};
-	//printf(cnchar);
-	return head;
+void createLongLink(char* cnchar,char* pinyin,char* py){
+	int length,i;
+	length=strlen(cnchar)/2;
+	cchar* longlink=(cchar*)malloc(sizeof(cnchar)*length);
+	for(i=0;i<length;i++){//TODO
+		printf("%s|",cutCnChar(cnchar,i));
+		printf("%s|",cutPinyin(pinyin,i));
+		printf("%s|\n",cutPinyin(py,i));
+	}
+	//return head;
 }
 /**
  * main function
  * program entrance
  */
 int main(){
-	//char* ch=cutCnChar(cnchar,2);
-	//printf("%s",ch);
-	//createLongLink(cnchar,pinyin,py);
-	cutPinyin(pinyin,0);
-	cutPinyin(pinyin,1);
-	cutPinyin(pinyin,2);
-	cutPinyin(py,0);
-	cutPinyin(py,1);
-	cutPinyin(py,2);
+	createLongLink(cnchar,pinyin,py);
+	//printf("%s",cutPinyin(pinyin,3));
 	return 0;
 }
 
