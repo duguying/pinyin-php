@@ -63,17 +63,23 @@ char* cutPinyin(char* pinyin,int i){
 }
 /**
  * The long Link contain all the chinese character
+ * @param char*	cnchar	the chinese charlist
+ * @param char*	pinyin	the chinese pinyin charlist
+ * @param char*	py	the pinyin alphabet list
+ * @param struct cchar*		the longlink of the whole chinese chracter and pinyin
  */
-void createLongLink(char* cnchar,char* pinyin,char* py){
+cchar* createLongLink(char* cnchar,char* pinyin,char* py){
 	int length,i;
 	length=strlen(cnchar)/2;
 	cchar* longlink=(cchar*)malloc(sizeof(cnchar)*length);
 	for(i=0;i<length;i++){//TODO
-		printf("%s|",cutCnChar(cnchar,i));
-		printf("%s|",cutPinyin(pinyin,i));
-		printf("%s|\n",cutPinyin(py,i));
+		strcpy(longlink[i].cnch,cutCnChar(cnchar,i));
+		strcpy(longlink[i].piny,cutPinyin(pinyin,i));
+		strcpy(longlink[i].pyab,cutPinyin(py,i));
+		longlink[i].next=&longlink[i+1];
 	}
-	//return head;
+	longlink[i+1].next=0;//set the last node's `next` pointer as null
+	return longlink;//return the longlist struct
 }
 /**
  * main function
