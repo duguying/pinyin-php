@@ -87,13 +87,30 @@ cchar* createLongLink(char* cnchar,char* pinyin,char* py){
  * @param char* key			the key chinese character
  * @return cchar*	the target list
  */
-void searchCnChar(cchar* longlink, char* key){
-	while(longlink->next){
+cchar* searchCnChar(cchar* longlink, char* key){
+	cchar* result=0;
+	cchar* rst;
+	while(longlink){
 		if(!strcmp(key,longlink->cnch)){//use strcmp to compare whether the two string is equal, mark `==` is not right
-			printf("equal");
+			//printf("equal\n");
+			if(0==result){
+				result=longlink;
+				//printf("\n!\n");//TODO
+				rst=result;
+			}else{
+				result->next=longlink;
+				result=result->next;
+			}
 		}
-		longlink=longlink->next;
-	}
+		if(longlink->next){
+			longlink=longlink->next;
+		}else{
+			break;
+		}
+	};
+	result->next=0;//close the result link
+	
+	return rst;
 }
 /**
  * main function
@@ -101,7 +118,16 @@ void searchCnChar(cchar* longlink, char* key){
  */
 int main(){
 	cchar* ll=createLongLink(cnchar,pinyin,py);
-	searchCnChar(ll,"Àï");
+	cchar* rs=searchCnChar(ll,"°¡");
+	cchar* rss=rs;
+	while(rs){
+		printf("%s\n",rs->cnch);
+		if(rs->next){
+			rs=rs->next;
+		}else{
+			break;
+		}
+	}
 	return 0;
 }
 
