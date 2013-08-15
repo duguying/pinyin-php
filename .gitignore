@@ -21,3 +21,4 @@
 *.inc
 /pinyin-win
 /ctest
+*.stackdump
