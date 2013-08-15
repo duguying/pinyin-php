@@ -1,135 +1,182 @@
-#include <stdio.h>
-#include "pinyin.inc"
-#include "pinyin.h"
+/*
+  +----------------------------------------------------------------------+
+  | PHP Version 5                                                        |
+  +----------------------------------------------------------------------+
+  | Copyright (c) 1997-2013 The PHP Group                                |
+  +----------------------------------------------------------------------+
+  | This source file is subject to version 3.01 of the PHP license,      |
+  | that is bundled with this package in the file LICENSE, and is        |
+  | available through the world-wide-web at the following url:           |
+  | http://www.php.net/license/3_01.txt                                  |
+  | If you did not receive a copy of the PHP license and are unable to   |
+  | obtain it through the world-wide-web, please send a note to          |
+  | license@php.net so we can mail you a copy immediately.               |
+  +----------------------------------------------------------------------+
+  | Author:                                                              |
+  +----------------------------------------------------------------------+
+*/
 
-#define DE '|'
-/**
- * The struct of a single chinese character
- */
-typedef struct character{
-	char cnch[3];//a single character
-	char piny[8];//the pinyin char of the character
-	char pyab[7];//the pinyin alphabet of the character
-	struct character* next;//point to the next character struct
-} cchar;
-/**
- * cut the chinese character
- * 2013-8-13
- * @param char*	cncharlist the chinese character list
- * @param int	i the ith chinese character
- * @return char*	the chinese character
- */
-char* cutCnChar(char* cncharlist,int i){
-	int length=strlen(cncharlist)/2;
-	int start;
-	start=i*2;
-	static char ch[3];//keep the var as static
-	if(i>length){
-		ch[0]=0;
-		return ch;
-	}
-	ch[0]=*(cncharlist+start);
-	ch[1]=*(cncharlist+start+1);
-	ch[2]=0;
-	return ch;
-}
-/**
- * cut the chinese pinyin char
- * @param char*	pinyin the pinyin charlist
- * @param int i	the ith pinyin
- * @return char*	the pinyin
- */
-char* cutPinyin(char* pinyin,int i){
-	int c=0;//count the separative sign
-	int length=strlen(pinyin);
-	int n;
-	static char buf[8]={'\0','\0','\0','\0','\0','\0','\0','\0'};
-	int m=0;//buffer increase
-	if(i>length){
-		return buf;
-	}
-	for(n=0;n<length;n++){
-		if(DE==pinyin[n]){
-			buf[m]=0;//stop the string with '\0'
-			c++;
-		}else{
-			if(c==i){
-				buf[m]=pinyin[n];
-				m++;
-			}
-		}
-	}
-	return buf;
-}
-/**
- * The long Link contain all the chinese character
- * @param char*	cnchar	the chinese charlist
- * @param char*	pinyin	the chinese pinyin charlist
- * @param char*	py	the pinyin alphabet list
- * @param struct cchar*		the longlink of the whole chinese chracter and pinyin
- */
-cchar* createLongLink(char* cnchar,char* pinyin,char* py){
-	int length,i;
-	length=strlen(cnchar)/2;
-	cchar* longlink=(cchar*)malloc(sizeof(cnchar)*length);
-	for(i=0;i<length;i++){
-		strcpy(longlink[i].cnch,cutCnChar(cnchar,i));
-		strcpy(longlink[i].piny,cutPinyin(pinyin,i));
-		strcpy(longlink[i].pyab,cutPinyin(py,i));
-		longlink[i].next=&longlink[i+1];
-	}
-	longlink[i].next=0;//set the last node's `next` pointer as null
-	return longlink;//return the longlist struct
-}
-/**
- * search the target node(`a struct`) by the key which is a chinese character
- * @param cchar* longlist	the longlist list
- * @param char* key			the key chinese character
- * @return cchar*	the target list
- */
-cchar* searchCnChar(cchar* longlink, char* key){
-	cchar* result=0;
-	cchar* rst=0;
-	while(longlink){
-		if(!strcmp(key,longlink->cnch)){//use strcmp to compare whether the two string is equal, mark `==` is not right
-			if(0==result){
-				result=longlink;
-				rst=result;
-			}else{
-				result->next=longlink;
-				result=result->next;
-			}
-		}
-		if(longlink->next){
-			longlink=longlink->next;
-		}else{
-			break;
-		}
-	};
-	if(result){
-		result->next=0;//close the result link
-	}
-	return rst;
-}
-/**
- * main function
- * program entrance
- */
-int main(int argc, char** argv){
-	cchar* ll=createLongLink(cnchar,pinyin,py);
-	if(3==argc){
-		if(!strcmp(argv[1],"-s")){
-			cchar* rs=searchCnChar(ll,argv[2]);
-			while(rs){
-				printf("%s:%s %s\n",rs->cnch,rs->piny,rs->pyab);
-				if(rs->next){
-					rs=rs->next;
-				}else{
-					break;
-				}
-			}
-		}
-	}
-	return 0;
-}
+/* $Id$ */
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "php.h"
+#include "php_ini.h"
+#include "ext/standard/info.h"
+#include "php_pinyin.h"
+
+/* If you declare any globals in php_pinyin.h uncomment this:
+ZEND_DECLARE_MODULE_GLOBALS(pinyin)
+*/
+
+/* True global resources - no need for thread safety here */
+static int le_pinyin;
+
+/* {{{ pinyin_functions[]
+ *
+ * Every user visible function must have an entry in pinyin_functions[].
+ */
+const zend_function_entry pinyin_functions[] = {
+	PHP_FE(confirm_pinyin_compiled,	NULL)		/* For testing, remove later. */
+	PHP_FE_END	/* Must be the last line in pinyin_functions[] */
+};
+/* }}} */
+
+/* {{{ pinyin_module_entry
+ */
+zend_module_entry pinyin_module_entry = {
+#if ZEND_MODULE_API_NO >= 20010901
+	STANDARD_MODULE_HEADER,
+#endif
+	"pinyin",
+	pinyin_functions,
+	PHP_MINIT(pinyin),
+	PHP_MSHUTDOWN(pinyin),
+	PHP_RINIT(pinyin),		/* Replace with NULL if there's nothing to do at request start */
+	PHP_RSHUTDOWN(pinyin),	/* Replace with NULL if there's nothing to do at request end */
+	PHP_MINFO(pinyin),
+#if ZEND_MODULE_API_NO >= 20010901
+	"0.1", /* Replace with version number for your extension */
+#endif
+	STANDARD_MODULE_PROPERTIES
+};
+/* }}} */
+
+#ifdef COMPILE_DL_PINYIN
+ZEND_GET_MODULE(pinyin)
+#endif
+
+/* {{{ PHP_INI
+ */
+/* Remove comments and fill if you need to have entries in php.ini
+PHP_INI_BEGIN()
+    STD_PHP_INI_ENTRY("pinyin.global_value",      "42", PHP_INI_ALL, OnUpdateLong, global_value, zend_pinyin_globals, pinyin_globals)
+    STD_PHP_INI_ENTRY("pinyin.global_string", "foobar", PHP_INI_ALL, OnUpdateString, global_string, zend_pinyin_globals, pinyin_globals)
+PHP_INI_END()
+*/
+/* }}} */
+
+/* {{{ php_pinyin_init_globals
+ */
+/* Uncomment this function if you have INI entries
+static void php_pinyin_init_globals(zend_pinyin_globals *pinyin_globals)
+{
+	pinyin_globals->global_value = 0;
+	pinyin_globals->global_string = NULL;
+}
+*/
+/* }}} */
+
+/* {{{ PHP_MINIT_FUNCTION
+ */
+PHP_MINIT_FUNCTION(pinyin)
+{
+	/* If you have INI entries, uncomment these lines 
+	REGISTER_INI_ENTRIES();
+	*/
+	return SUCCESS;
+}
+/* }}} */
+
+/* {{{ PHP_MSHUTDOWN_FUNCTION
+ */
+PHP_MSHUTDOWN_FUNCTION(pinyin)
+{
+	/* uncomment this line if you have INI entries
+	UNREGISTER_INI_ENTRIES();
+	*/
+	return SUCCESS;
+}
+/* }}} */
+
+/* Remove if there's nothing to do at request start */
+/* {{{ PHP_RINIT_FUNCTION
+ */
+PHP_RINIT_FUNCTION(pinyin)
+{
+	return SUCCESS;
+}
+/* }}} */
+
+/* Remove if there's nothing to do at request end */
+/* {{{ PHP_RSHUTDOWN_FUNCTION
+ */
+PHP_RSHUTDOWN_FUNCTION(pinyin)
+{
+	return SUCCESS;
+}
+/* }}} */
+
+/* {{{ PHP_MINFO_FUNCTION
+ */
+PHP_MINFO_FUNCTION(pinyin)
+{
+	php_info_print_table_start();
+	php_info_print_table_header(2, "pinyin support", "enabled");
+	php_info_print_table_end();
+
+	/* Remove comments if you have entries in php.ini
+	DISPLAY_INI_ENTRIES();
+	*/
+}
+/* }}} */
+
+
+/* Remove the following function when you have succesfully modified config.m4
+   so that your module can be compiled into PHP, it exists only for testing
+   purposes. */
+
+/* Every user-visible function in PHP should document itself in the source */
+/* {{{ proto string confirm_pinyin_compiled(string arg)
+   Return a string to confirm that the module is compiled in */
+PHP_FUNCTION(confirm_pinyin_compiled)
+{
+	char *arg = NULL;
+	int arg_len, len;
+	char *strg;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s", &arg, &arg_len) == FAILURE) {
+		return;
+	}
+
+	len = spprintf(&strg, 0, "Congratulations! You have successfully modified ext/%.78s/config.m4. Module %.78s is now compiled into PHP.", "pinyin", arg);
+	RETURN_STRINGL(strg, len, 0);
+}
+/* }}} */
+/* The previous line is meant for vim and emacs, so it can correctly fold and 
+   unfold functions in source code. See the corresponding marks just before 
+   function definition, where the functions purpose is also documented. Please 
+   follow this convention for the convenience of others editing your code.
+*/
+
+
+/*
+ * Local variables:
+ * tab-width: 4
+ * c-basic-offset: 4
+ * End:
+ * vim600: noet sw=4 ts=4 fdm=marker
+ * vim<600: noet sw=4 ts=4
+ */

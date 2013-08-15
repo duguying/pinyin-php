@@ -21,4 +21,11 @@
 *.inc
 /pinyin-win
 /ctest
+/tests
 *.stackdump
+.deps
+*.lo
+*.la
+CREDITS
+EXPERIMENTAL
+*.dsp
