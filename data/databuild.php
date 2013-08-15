@@ -21,7 +21,7 @@ $py="";
  */
 mysql_query("use cchars",$link);
 mysql_query("set charset gb2312");
-$result=mysql_query("select * from hanzi order by cchar",$link);
+$result=mysql_query("select * from demo order by cchar",$link);
 while($row=@mysql_fetch_array($result)){
 	//var_dump($row);
 	$char=$char.$row['cchar'];

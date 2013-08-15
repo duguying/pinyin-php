@@ -4,4 +4,3 @@ test:
 	./pinyin.exe
 clean:
 	rm pinyin.exe
-	rm pinyin.exe.stackdump
