@@ -18,20 +18,21 @@ typedef struct character{
  * @param int	i the ith chinese character
  * @return char*	the chinese character
  */
+char g_ch[3];//keep the var as global
 char* cutCnChar(char* cncharlist,int i){
-	static char ch[3];//keep the var as static
 	int length;
 	int start;
 	start=i*2;
 	length=strlen(cncharlist)/2;
+	g_ch[0]='\0';g_ch[1]='\0';g_ch[2]='\0';
 	if(i>length){
-		ch[0]=0;
-		return ch;
+		g_ch[0]=0;
+		return g_ch;
 	}
-	ch[0]=*(cncharlist+start);
-	ch[1]=*(cncharlist+start+1);
-	ch[2]=0;
-	return ch;
+	g_ch[0]=*(cncharlist+start);
+	g_ch[1]=*(cncharlist+start+1);
+	g_ch[2]=0;
+	return g_ch;
 }
 /**
  * cut the chinese pinyin char
@@ -39,27 +40,31 @@ char* cutCnChar(char* cncharlist,int i){
  * @param int i	the ith pinyin
  * @return char*	the pinyin
  */
+char g_buf[8];//global buffer
 char* cutPinyin(char* pinyin,int i){
 	int c=0;//count the separative sign
 	int length=strlen(pinyin);
-	int n;
-	static char buf[8]={'\0','\0','\0','\0','\0','\0','\0','\0'};
-	int m=0;//buffer increase
+	int n,m;
+	for(c=0;c<8;c++){
+		g_buf[c]='\0';
+	}//initialize buffer with 0
+	c=0;
+	m=0;//buffer increase
 	if(i>length){
-		return buf;
+		return g_buf;
 	}
 	for(n=0;n<length;n++){
 		if(DE==pinyin[n]){
-			buf[m]=0;//stop the string with '\0'
+			g_buf[m]=0;//stop the string with '\0'
 			c++;
 		}else{
 			if(c==i){
-				buf[m]=pinyin[n];
+				g_buf[m]=pinyin[n];
 				m++;
 			}
 		}
 	}
-	return buf;
+	return g_buf;
 }
 /**
  * The long Link contain all the chinese character
@@ -68,11 +73,9 @@ char* cutPinyin(char* pinyin,int i){
  * @param char*	py	the pinyin alphabet list
  * @param struct cchar*		the longlink of the whole chinese chracter and pinyin
  */
-cchar* createLongLink(char* cnchar,char* pinyin,char* py){
+cchar* createLongLink(cchar* longlink,char* cnchar,char* pinyin,char* py){
 	int length,i;
-	cchar* longlink;
 	length=strlen(cnchar)/2;
-	longlink=(cchar*)malloc(sizeof(cnchar)*length);
 	for(i=0;i<length;i++){
 		strcpy(longlink[i].cnch,cutCnChar(cnchar,i));
 		strcpy(longlink[i].piny,cutPinyin(pinyin,i));

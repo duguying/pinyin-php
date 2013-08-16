@@ -31,9 +31,9 @@ while($row=@mysql_fetch_array($result)){
 
 echo "The following is chinese chars:\n",$char,"\nThe following is pinyin chars:\n",$pinyin,"\nThe following is pinyin alphabeta:\n",$py,"\n";
 
-$str="extern char cnchar[]=\"$char\";\n";
+$str="#ifndef RS\nextern char cnchar[]=\"$char\";\n";
 $str=$str."extern char pinyin[]=\"$pinyin\";\n";
-$str=$str."extern char py[]=\"$py\";\n";
+$str=$str."extern char py[]=\"$py\";\n#endif\n#define RS\n";
 
 file_put_contents("../pinyin.inc",$str);
 

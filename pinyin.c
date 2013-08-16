@@ -158,16 +158,21 @@ PHP_FUNCTION(pinyins)
 {
 	char *arg = NULL;
 	int arg_len, len;
+	int length;//
 	char *strg;
 	cchar* ll;//longlink
 	cchar* rs;//pinyin search result
-	//char* buf;
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s", &arg, &arg_len) == FAILURE) {
 		return;
 	}
-	ll=createLongLink(cnchar,pinyin,py);
-	rs=searchCnChar(ll,"°¡");
+	length=strlen(cnchar)/2;
+	ll=(cchar*)malloc(sizeof(cnchar)*length);
+	ll=createLongLink(ll,cnchar,pinyin,py);
+	rs=searchCnChar(ll,arg);
+	
 	len = spprintf(&strg, 0, "%.78s", rs->piny);
+	//efree(ll);
+	//efree(rs);
 	RETURN_STRINGL(strg, len, 0);
 }
 /* }}} */
