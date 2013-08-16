@@ -156,15 +156,19 @@ PHP_MINFO_FUNCTION(pinyin)
 
 PHP_FUNCTION(pinyins)
 {
-	/*char *arg = NULL;
+	char *arg = NULL;
 	int arg_len, len;
 	char *strg;
+	cchar* ll;//longlink
+	cchar* rs;//pinyin search result
+	//char* buf;
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s", &arg, &arg_len) == FAILURE) {
 		return;
 	}
-	len = spprintf(&strg, 0, "Congratulations! You have successfully modified ext/%.78s/config.m4. Module %.78s is now compiled into PHP.", "pinyin", arg);
-	RETURN_STRINGL(strg, len, 0);*/
-	php_printf("Copyright (c) 2013 Rex PinYin");
+	ll=createLongLink(cnchar,pinyin,py);
+	rs=searchCnChar(ll,"°¡");
+	len = spprintf(&strg, 0, "%.78s", rs->piny);
+	RETURN_STRINGL(strg, len, 0);
 }
 /* }}} */
 /* The previous line is meant for vim and emacs, so it can correctly fold and 

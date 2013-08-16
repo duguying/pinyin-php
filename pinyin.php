@@ -1,3 +1,3 @@
 <?php
-pinyins();
+echo pinyins("°¡"),"\n";
 ?>

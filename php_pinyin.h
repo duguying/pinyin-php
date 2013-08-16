@@ -18,6 +18,8 @@
 
 /* $Id$ */
 
+#include "funs.c"	//functions of pinyin
+
 #ifndef PHP_PINYIN_H
 #define PHP_PINYIN_H
 
