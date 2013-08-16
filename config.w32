@@ -2,7 +2,7 @@
 // vim:ft=javascript
 
 // If your extension references something external, use ARG_WITH
-// ARG_WITH("pinyin", "for pinyin support", "no");
+ARG_WITH("pinyin", "for pinyin support", "no");
 
 // Otherwise, use ARG_ENABLE
 // ARG_ENABLE("pinyin", "enable pinyin support", "no");

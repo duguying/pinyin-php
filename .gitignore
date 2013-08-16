@@ -29,3 +29,11 @@
 CREDITS
 EXPERIMENTAL
 *.dsp
+
+*.sdf
+*.vcxproj
+*.filters
+*.user
+/Release_TS
+*.ipch
+*.opensdf

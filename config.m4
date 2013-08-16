@@ -7,9 +7,9 @@ dnl without editing.
 
 dnl If your extension references something external, use with:
 
-dnl PHP_ARG_WITH(pinyin, for pinyin support,
-dnl Make sure that the comment is aligned:
-dnl [  --with-pinyin             Include pinyin support])
+PHP_ARG_WITH(pinyin, for pinyin support,
+Make sure that the comment is aligned:
+[  --with-pinyin             Include pinyin support])
 
 dnl Otherwise use enable:
 
