@@ -42,8 +42,8 @@ PHP_RINIT_FUNCTION(pinyin);
 PHP_RSHUTDOWN_FUNCTION(pinyin);
 PHP_MINFO_FUNCTION(pinyin);
 
-PHP_FUNCTION(confirm_pinyin_compiled);	/* For testing, remove later. */
-
+//PHP_FUNCTION(confirm_pinyin_compiled);	/* For testing, remove later. */
+PHP_FUNCTION(pinyins);
 /* 
   	Declare any global variables you may need between the BEGIN
 	and END macros here:     

@@ -37,3 +37,5 @@ EXPERIMENTAL
 /Release_TS
 *.ipch
 *.opensdf
+*.suo
+*.sln

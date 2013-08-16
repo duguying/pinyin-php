@@ -39,9 +39,11 @@ static int le_pinyin;
  * Every user visible function must have an entry in pinyin_functions[].
  */
 const zend_function_entry pinyin_functions[] = {
-	PHP_FE(confirm_pinyin_compiled,	NULL)		/* For testing, remove later. */
+	//PHP_FE(confirm_pinyin_compiled,	NULL)		/* For testing, remove later. */
+	PHP_FE(pinyins,	NULL)
 	PHP_FE_END	/* Must be the last line in pinyin_functions[] */
 };
+
 /* }}} */
 
 /* {{{ pinyin_module_entry
@@ -151,18 +153,18 @@ PHP_MINFO_FUNCTION(pinyin)
 /* Every user-visible function in PHP should document itself in the source */
 /* {{{ proto string confirm_pinyin_compiled(string arg)
    Return a string to confirm that the module is compiled in */
-PHP_FUNCTION(confirm_pinyin_compiled)
+
+PHP_FUNCTION(pinyins)
 {
-	char *arg = NULL;
+	/*char *arg = NULL;
 	int arg_len, len;
 	char *strg;
-
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s", &arg, &arg_len) == FAILURE) {
 		return;
 	}
-
 	len = spprintf(&strg, 0, "Congratulations! You have successfully modified ext/%.78s/config.m4. Module %.78s is now compiled into PHP.", "pinyin", arg);
-	RETURN_STRINGL(strg, len, 0);
+	RETURN_STRINGL(strg, len, 0);*/
+	php_printf("Copyright (c) 2013 Rex PinYin");
 }
 /* }}} */
 /* The previous line is meant for vim and emacs, so it can correctly fold and 
