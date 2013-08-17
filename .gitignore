@@ -39,3 +39,10 @@ EXPERIMENTAL
 *.opensdf
 *.suo
 *.sln
+*.ilk
+*.obj
+*.pch
+*pdb
+*.idb
+*.ncb
+*plg

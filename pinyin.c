@@ -31,6 +31,7 @@
 ZEND_DECLARE_MODULE_GLOBALS(pinyin)
 */
 
+
 /* True global resources - no need for thread safety here */
 static int le_pinyin;
 
@@ -39,7 +40,6 @@ static int le_pinyin;
  * Every user visible function must have an entry in pinyin_functions[].
  */
 const zend_function_entry pinyin_functions[] = {
-	//PHP_FE(confirm_pinyin_compiled,	NULL)		/* For testing, remove later. */
 	PHP_FE(pinyins,	NULL)
 	PHP_FE_END	/* Must be the last line in pinyin_functions[] */
 };
@@ -93,11 +93,16 @@ static void php_pinyin_init_globals(zend_pinyin_globals *pinyin_globals)
 
 /* {{{ PHP_MINIT_FUNCTION
  */
+cchar* g_ll;//global longlink
 PHP_MINIT_FUNCTION(pinyin)
 {
 	/* If you have INI entries, uncomment these lines 
 	REGISTER_INI_ENTRIES();
 	*/
+	int length;
+	length=strlen(cnchar)/2;
+	g_ll=(cchar*)emalloc(sizeof(cnchar)*length);
+	
 	return SUCCESS;
 }
 /* }}} */
@@ -109,6 +114,7 @@ PHP_MSHUTDOWN_FUNCTION(pinyin)
 	/* uncomment this line if you have INI entries
 	UNREGISTER_INI_ENTRIES();
 	*/
+	printf("test\n");
 	return SUCCESS;
 }
 /* }}} */
@@ -127,6 +133,7 @@ PHP_RINIT_FUNCTION(pinyin)
  */
 PHP_RSHUTDOWN_FUNCTION(pinyin)
 {
+	//printf("test\n");
 	return SUCCESS;
 }
 /* }}} */
@@ -145,7 +152,6 @@ PHP_MINFO_FUNCTION(pinyin)
 }
 /* }}} */
 
-
 /* Remove the following function when you have succesfully modified config.m4
    so that your module can be compiled into PHP, it exists only for testing
    purposes. */
@@ -160,18 +166,13 @@ PHP_FUNCTION(pinyins)
 	int arg_len, len;
 	int length;//
 	char *strg;
-	cchar* ll;//longlink
 	cchar* rs;//pinyin search result
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s", &arg, &arg_len) == FAILURE) {
 		return;
 	}
-	length=strlen(cnchar)/2;
-	ll=(cchar*)malloc(sizeof(cnchar)*length);
-	ll=createLongLink(ll,cnchar,pinyin,py);
-	rs=searchCnChar(ll,arg);
-	
+	g_ll=createLongLink(g_ll,cnchar,pinyin,py);//TODO here is the problem
+	rs=searchCnChar(g_ll,arg);
 	len = spprintf(&strg, 0, "%.78s", rs->piny);
-	//efree(ll);
 	//efree(rs);
 	RETURN_STRINGL(strg, len, 0);
 }
