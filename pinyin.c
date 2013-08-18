@@ -41,7 +41,6 @@ static int le_pinyin;
  */
 const zend_function_entry pinyin_functions[] = {
 	PHP_FE(pinyins,	NULL)
-	PHP_FE(testarr,	NULL)
 	PHP_FE_END	/* Must be the last line in pinyin_functions[] */
 };
 
@@ -163,11 +162,9 @@ PHP_MINFO_FUNCTION(pinyin)
 PHP_FUNCTION(pinyins)
 {
 	char *arg = NULL;
-	int arg_len, len;
-	char *strg;
+	int arg_len, i=0;//i is index of the array
 	cchar* rs;//pinyin search result
 	char tmp[3];
-	//char* tmprst;
 	tmp[2]=0;
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s", &arg, &arg_len) == FAILURE) {
 		return;
@@ -178,19 +175,18 @@ PHP_FUNCTION(pinyins)
 	if (!rs){
 		RETURN_NULL();//if not matched, return null
 	}
-	len = spprintf(&strg, 0, "%.78s", rs->piny);
-	RETURN_STRINGL(strg, len, 0);
-}
-PHP_FUNCTION(testarr)
-{
-	zval ts;
-	char* tss="ÄãºÃ";
-	ts.is_ref__gc=0;
-	ts.refcount__gc=0;
-	ts.type=IS_STRING;
-	ts.value.str.len=5;
-	ts.value.str.val=tss;
-	*return_value = ts;
+	array_init(return_value);
+	while (rs)
+	{
+		add_index_string(return_value, i, rs->piny, 1);
+		if (rs->next)
+		{
+			rs=rs->next;
+			i++;
+		}else{
+			break;
+		}
+	}
 }
 
 /* }}} */

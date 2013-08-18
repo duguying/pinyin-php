@@ -46,7 +46,6 @@ PHP_MINFO_FUNCTION(pinyin);
 
 //PHP_FUNCTION(confirm_pinyin_compiled);	/* For testing, remove later. */
 PHP_FUNCTION(pinyins);
-PHP_FUNCTION(testarr);
 /* 
   	Declare any global variables you may need between the BEGIN
 	and END macros here:     

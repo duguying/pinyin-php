@@ -1,8 +1,6 @@
 <?php
 set_time_limit(0);
-
-echo pinyins("Ò»a"),"\n";
-echo pinyins("°¡"),"\n";
-echo pinyins("ÊÇ"),"\n";
-echo testarr();
+for($i=0;$i<10000;$i++){
+	var_dump(pinyins("°¡"));
+}
 ?>
