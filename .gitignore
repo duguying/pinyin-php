@@ -46,3 +46,5 @@ EXPERIMENTAL
 *.idb
 *.ncb
 *plg
+*.dsw
+*.opt

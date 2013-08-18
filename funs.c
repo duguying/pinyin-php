@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include "./pinyin.inc"
 
+#ifndef FUNS_C
+#define FUNS_C
 #define DE '|'
 /**
  * The struct of a single chinese character
@@ -116,3 +118,6 @@ cchar* searchCnChar(cchar* longlink, char* key){
 	return rst;
 }
 
+
+
+#endif

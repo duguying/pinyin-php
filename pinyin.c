@@ -41,6 +41,7 @@ static int le_pinyin;
  */
 const zend_function_entry pinyin_functions[] = {
 	PHP_FE(pinyins,	NULL)
+	PHP_FE(testarr,	NULL)
 	PHP_FE_END	/* Must be the last line in pinyin_functions[] */
 };
 
@@ -101,8 +102,7 @@ PHP_MINIT_FUNCTION(pinyin)
 	*/
 	int length;
 	length=strlen(cnchar)/2;
-	g_ll=(cchar*)emalloc(sizeof(cnchar)*length);
-	
+	g_ll=(cchar*)emalloc(sizeof(cnchar)*length);//use `emalloc` not `malloc`
 	return SUCCESS;
 }
 /* }}} */
@@ -114,7 +114,6 @@ PHP_MSHUTDOWN_FUNCTION(pinyin)
 	/* uncomment this line if you have INI entries
 	UNREGISTER_INI_ENTRIES();
 	*/
-	printf("test\n");
 	return SUCCESS;
 }
 /* }}} */
@@ -133,7 +132,6 @@ PHP_RINIT_FUNCTION(pinyin)
  */
 PHP_RSHUTDOWN_FUNCTION(pinyin)
 {
-	//printf("test\n");
 	return SUCCESS;
 }
 /* }}} */
@@ -144,6 +142,8 @@ PHP_MINFO_FUNCTION(pinyin)
 {
 	php_info_print_table_start();
 	php_info_print_table_header(2, "pinyin support", "enabled");
+	php_info_print_table_row(2, "author", "Rex Lee"); 
+	php_info_print_table_row(2, "version", "0.1");
 	php_info_print_table_end();
 
 	/* Remove comments if you have entries in php.ini
@@ -164,18 +164,35 @@ PHP_FUNCTION(pinyins)
 {
 	char *arg = NULL;
 	int arg_len, len;
-	int length;//
 	char *strg;
 	cchar* rs;//pinyin search result
+	char tmp[3];
+	//char* tmprst;
+	tmp[2]=0;
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s", &arg, &arg_len) == FAILURE) {
 		return;
 	}
-	g_ll=createLongLink(g_ll,cnchar,pinyin,py);//TODO here is the problem
+	arg=strncpy(tmp,arg,2);//just get the 1st chinese character
+	g_ll=createLongLink(g_ll,cnchar,pinyin,py);
 	rs=searchCnChar(g_ll,arg);
+	if (!rs){
+		RETURN_NULL();//if not matched, return null
+	}
 	len = spprintf(&strg, 0, "%.78s", rs->piny);
-	//efree(rs);
 	RETURN_STRINGL(strg, len, 0);
 }
+PHP_FUNCTION(testarr)
+{
+	zval ts;
+	char* tss="ÄãºÃ";
+	ts.is_ref__gc=0;
+	ts.refcount__gc=0;
+	ts.type=IS_STRING;
+	ts.value.str.len=5;
+	ts.value.str.val=tss;
+	*return_value = ts;
+}
+
 /* }}} */
 /* The previous line is meant for vim and emacs, so it can correctly fold and 
    unfold functions in source code. See the corresponding marks just before 
