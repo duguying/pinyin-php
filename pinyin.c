@@ -40,7 +40,7 @@ static int le_pinyin;
  * Every user visible function must have an entry in pinyin_functions[].
  */
 const zend_function_entry pinyin_functions[] = {
-	PHP_FE(pinyins,	NULL)
+	PHP_FE(pinyin,	NULL)
 	PHP_FE_END	/* Must be the last line in pinyin_functions[] */
 };
 
@@ -159,7 +159,7 @@ PHP_MINFO_FUNCTION(pinyin)
 /* {{{ proto string confirm_pinyin_compiled(string arg)
    Return a string to confirm that the module is compiled in */
 
-PHP_FUNCTION(pinyins)
+PHP_FUNCTION(pinyin)
 {
 	char *arg = NULL;
 	int arg_len, i=0;//i is index of the array
@@ -176,6 +176,7 @@ PHP_FUNCTION(pinyins)
 		RETURN_NULL();//if not matched, return null
 	}
 	array_init(return_value);
+	add_assoc_string(return_value, "alphabet", rs->pyab, 1);
 	while (rs)
 	{
 		add_index_string(return_value, i, rs->piny, 1);
