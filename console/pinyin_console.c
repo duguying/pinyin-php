@@ -6,6 +6,7 @@
  * program entrance
  */
 int main(int argc, char** argv){
+	
 	cchar* rs;
 	int i,length;
 	cchar* ll;
@@ -27,7 +28,9 @@ int main(int argc, char** argv){
 			}
 		}
 	}
-	printf("%d",i);
+	//printf("%d",i);
+	
+	//printf("%s",pinyin);
 	return 0;
 }
 

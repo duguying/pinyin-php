@@ -99,9 +99,18 @@ PHP_MINIT_FUNCTION(pinyin)
 	/* If you have INI entries, uncomment these lines 
 	REGISTER_INI_ENTRIES();
 	*/
-	int length;
+	int length,i;
+	cchar* llp;//longlink pointer
 	length=strlen(cnchar)/2;
-	g_ll=(cchar*)emalloc(sizeof(cnchar)*length);//use `emalloc` not `malloc`
+	//printf("%d",length);
+	llp=g_ll=(cchar*)emalloc(sizeof(cnchar));
+	for (i=0;i<length-1;i++)
+	{
+		llp->next=(cchar*)emalloc(sizeof(cnchar));
+		llp=llp->next;
+	}
+	llp->next=0;
+	//g_ll=(cchar*)emalloc(sizeof(cnchar)*length);//use `emalloc` not `malloc`
 	return SUCCESS;
 }
 /* }}} */
@@ -173,9 +182,10 @@ PHP_FUNCTION(pinyin)
 	g_ll=createLongLink(g_ll,cnchar,pinyin,py);
 	rs=searchCnChar(g_ll,arg);
 	if (!rs){
+		printf("%s","mark\n");
 		RETURN_NULL();//if not matched, return null
 	}
-	array_init(return_value);
+	/*array_init(return_value);
 	add_assoc_string(return_value, "alphabet", rs->pyab, 1);
 	while (rs)
 	{
@@ -187,7 +197,7 @@ PHP_FUNCTION(pinyin)
 		}else{
 			break;
 		}
-	}
+	}*/
 }
 
 /* }}} */

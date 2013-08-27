@@ -77,14 +77,19 @@ char* cutPinyin(char* pinyin,int i){
  */
 cchar* createLongLink(cchar* longlink,char* cnchar,char* pinyin,char* py){
 	int length,i;
+	cchar* llp;
+	llp=longlink;
 	length=strlen(cnchar)/2;
-	for(i=0;i<length;i++){
-		strcpy(longlink[i].cnch,cutCnChar(cnchar,i));
-		strcpy(longlink[i].piny,cutPinyin(pinyin,i));
-		strcpy(longlink[i].pyab,cutPinyin(py,i));
-		longlink[i].next=&longlink[i+1];
+	for(i=0;i<length;i++){//TODO
+		strncpy(llp->cnch,cutCnChar(cnchar,i),3);
+		strncpy(llp->piny,cutPinyin(pinyin,i),8);
+		strncpy(llp->pyab,cutPinyin(py,i),7);
+		if(0!=llp->next){
+			llp=llp->next;
+		}
 	}
-	longlink[i].next=0;//set the last node's `next` pointer as null
+	//longlink[i].next=0;//set the last node's `next` pointer as null
+	llp->next=0;
 	return longlink;//return the longlist struct
 }
 /**
