@@ -17,7 +17,8 @@ before the extension file(`*.so`,`*.dll`) build, we will develop a console appli
 cd pinyin-php/console/build
 cmake
 make
-```<br>
+```
+
 3. build the extension<br>
 
 ```
