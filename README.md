@@ -12,15 +12,22 @@ before the extension file(`*.so`,`*.dll`) build, we will develop a console appli
 
 1. build resource file, refer to `/data/README.md`
 2. build the application<br>
-
-```
-$ make
-$ make test
+```shell
+cd pinyin-php/console/build
+cmake
+make
+```<br>
+3. build the extension<br>
+```shell
+phpize
+configure
+make
+make test
 ```
 
 **about**
 
-the file `pinyin.inc-example` should be `pinyin.inc`, it is a resource file. of course, you needn't change the file name or create a `pinyin.inc`, the file `pinyin.inc` will be built by a php script in the `/data/` directory. the file `pinyin.inc-example` just a reference for the developer, you can't get the variable in the file. it just for reference.
+the file `pinyin.inc`, it is a resource file. of course, you needn't change the file name or create a `pinyin.inc`, the file `pinyin.inc` will be built by a php script in the `/data/` directory. 
 
 # License #
 

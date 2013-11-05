@@ -1,3 +1,3 @@
-extern char cnchar[]="Àï°¡°¢";
-extern char pinyin[]="l¨«|a|a|";
-extern char py[]="li|a|a|";
+ï»¿char cnchar[]="é‡Œå•Šé˜¿";
+char pinyin[]="lÇ|a|a|";
+char py[]="li|a|a|";
