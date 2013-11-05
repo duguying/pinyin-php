@@ -19,32 +19,7 @@
 *~
 *.swp
 *.inc
-/pinyin-win
-/ctest
-/tests
-*.stackdump
-.deps
-*.lo
-*.la
-CREDITS
-EXPERIMENTAL
-*.dsp
 
-*.sdf
-*.vcxproj
-*.filters
-*.user
-/Release_TS
-*.ipch
-*.opensdf
-*.suo
-*.sln
-*.ilk
-*.obj
-*.pch
-*pdb
-*.idb
-*.ncb
-*plg
-*.dsw
-*.opt
+
+# cmake
+/console/build/
