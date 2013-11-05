@@ -28,9 +28,7 @@ int main(int argc, char** argv){
 			}
 		}
 	}
-	//printf("%d",i);
 	
-	//printf("%s",pinyin);
 	return 0;
 }
 

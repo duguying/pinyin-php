@@ -31,36 +31,36 @@ while($row=@mysql_fetch_array($result)){
 
 $py=$pinyin;
 
-$py=preg_replace('/®°/', 'a', $py);
-$py=preg_replace('/®¢/', 'a', $py);
-$py=preg_replace('/®£/', 'a', $py);
-$py=preg_replace('/®§/', 'a', $py);
+$py=preg_replace('/ƒÅ/', 'a', $py);
+$py=preg_replace('/√°/', 'a', $py);
+$py=preg_replace('/«é/', 'a', $py);
+$py=preg_replace('/√†/', 'a', $py);
 
-$py=preg_replace('/®≠/', 'o', $py);
-$py=preg_replace('/®Æ/', 'o', $py);
-$py=preg_replace('/®Ø/', 'o', $py);
-$py=preg_replace('/®∞/', 'o', $py);
+$py=preg_replace('/≈ç/', 'o', $py);
+$py=preg_replace('/√≥/', 'o', $py);
+$py=preg_replace('/«í/', 'o', $py);
+$py=preg_replace('/√≤/', 'o', $py);
 
-$py=preg_replace('/®•/', 'e', $py);
-$py=preg_replace('/®¶/', 'e', $py);
-$py=preg_replace('/®ß/', 'e', $py);
-$py=preg_replace('/®®/', 'e', $py);
+$py=preg_replace('/ƒì/', 'e', $py);
+$py=preg_replace('/√©/', 'e', $py);
+$py=preg_replace('/ƒõ/', 'e', $py);
+$py=preg_replace('/√®/', 'e', $py);
 
-$py=preg_replace('/®©/', 'i', $py);
-$py=preg_replace('/®™/', 'i', $py);
-$py=preg_replace('/®´/', 'i', $py);
-$py=preg_replace('/®¨/', 'i', $py);
+$py=preg_replace('/ƒ´/', 'i', $py);
+$py=preg_replace('/√≠/', 'i', $py);
+$py=preg_replace('/«ê/', 'i', $py);
+$py=preg_replace('/√¨/', 'i', $py);
 
-$py=preg_replace('/®±/', 'u', $py);
-$py=preg_replace('/®≤/', 'u', $py);
-$py=preg_replace('/®≥/', 'u', $py);
-$py=preg_replace('/®¥/', 'u', $py);
+$py=preg_replace('/≈´/', 'u', $py);
+$py=preg_replace('/√∫/', 'u', $py);
+$py=preg_replace('/«î/', 'u', $py);
+$py=preg_replace('/√π/', 'u', $py);
 
-$py=preg_replace('/®µ/', 'v', $py);
-$py=preg_replace('/®∂/', 'v', $py);
-$py=preg_replace('/®∑/', 'v', $py);
-$py=preg_replace('/®∏/', 'v', $py);
-$py=preg_replace('/®π/', 'v', $py);
+$py=preg_replace('/«ñ/', 'v', $py);
+$py=preg_replace('/«ò/', 'v', $py);
+$py=preg_replace('/«ö/', 'v', $py);
+$py=preg_replace('/«ú/', 'v', $py);
+$py=preg_replace('/√º/', 'v', $py);
 
 $char_arr=str_split($char, 2);
 $pinyin_arr=explode('|', $pinyin);
