@@ -20,8 +20,8 @@ $py="";
 /**
  * get data from database
  */
-mysql_query("use cchars",$link);
-mysql_query("set charset gb2312");
+mysql_query("use hanzi",$link);
+mysql_query("set charset utf8");
 $result=mysql_query("select * from cn_hanzi where pinyin='' order by cchar",$link);
 while($row=@mysql_fetch_array($result)){
 	$char=$char.$row['cchar'];

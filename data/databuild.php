@@ -20,7 +20,7 @@ $py="";
  * get data from database
  */
 mysql_query("use cchars",$link);
-mysql_query("set charset gb2312");
+mysql_query("set charset utf8");
 $result=mysql_query("select * from cn_hanzi order by cchar",$link);
 while($row=@mysql_fetch_array($result)){
 	//var_dump($row);
@@ -69,17 +69,17 @@ $py_arr=explode('|', $py);
 //echo "The following is chinese chars:\n",$char,"\nThe following is pinyin chars:\n",$pinyin,"\nThe following is pinyin alphabeta:\n",$py,"\n";
 
 $str="";
-$str=$str. "#ifndef RS\nextern char cnchar[]=\n";
+$str=$str. "#ifndef RS\nchar cnchar[]=\n";
 foreach($char_arr as $value){
 	$str=$str. "\"".$value."\"\n";
 }
 $str=$str.";\n";
-$str=$str. "extern char pinyin[]=\n";
+$str=$str. "char pinyin[]=\n";
 foreach($pinyin_arr as $value){
 	$str=$str. "\"".$value."|\"\n";
 }
 $str=$str.";\n";
-$str=$str. "extern char py[]=\n";
+$str=$str. "char py[]=\n";
 foreach($py_arr as $value){
 	$str=$str. "\"".$value."|\"\n";
 }
