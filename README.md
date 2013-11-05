@@ -12,13 +12,15 @@ before the extension file(`*.so`,`*.dll`) build, we will develop a console appli
 
 1. build resource file, refer to `/data/README.md`
 2. build the application<br>
-```shell
+
+```
 cd pinyin-php/console/build
 cmake
 make
 ```<br>
 3. build the extension<br>
-```shell
+
+```
 phpize
 configure
 make
