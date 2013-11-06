@@ -1,21 +1,6 @@
-<?php
+ï»¿<?php
 set_time_limit(0);
-/*
-for($i=0;$i<10000;$i++){
-	var_dump(pinyin("°¡"));
-}
-*/
-var_dump(pinyin("±û"));
-var_dump(pinyin("Ïþ"));
-var_dump(pinyin("¹Ù"));
-var_dump(pinyin("Á¤"));
-var_dump(pinyin("Éª"));
-var_dump(pinyin("¿Ï"));
-var_dump(pinyin("Óó"));
-var_dump(pinyin("Ñª"));
-var_dump(pinyin("Æ¶"));
-var_dump(pinyin("¼­"));
-var_dump(pinyin("¸ó"));
-var_dump(pinyin("¹Ý"));
-var_dump(pinyin("¹ê"));
+
+pinyin("ä¸€");
+
 ?>

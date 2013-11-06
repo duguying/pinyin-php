@@ -93,23 +93,23 @@ static void php_pinyin_init_globals(zend_pinyin_globals *pinyin_globals)
 
 /* {{{ PHP_MINIT_FUNCTION
  */
-cchar* g_ll;//global longlink
+//cchar* g_ll;//global longlink
 PHP_MINIT_FUNCTION(pinyin)
 {
 	/* If you have INI entries, uncomment these lines 
 	REGISTER_INI_ENTRIES();
 	*/
-	int length,i;
-	cchar* llp;//longlink pointer
-	length=strlen(cnchar)/2;
+	//int length,i;
+	//cchar* llp;//longlink pointer
+	//length=strlen(cnchar)/2;
 	//printf("%d",length);
-	llp=g_ll=(cchar*)emalloc(sizeof(cnchar));
-	for (i=0;i<length-1;i++)
-	{
-		llp->next=(cchar*)emalloc(sizeof(cnchar));
-		llp=llp->next;
-	}
-	llp->next=0;
+	//llp=g_ll=(cchar*)emalloc(sizeof(cnchar));
+	//for (i=0;i<length-1;i++)
+	//{
+	//	llp->next=(cchar*)emalloc(sizeof(cnchar));
+	//	llp=llp->next;
+	//}
+	//llp->next=0;
 	//g_ll=(cchar*)emalloc(sizeof(cnchar)*length);//use `emalloc` not `malloc`
 	return SUCCESS;
 }
@@ -171,13 +171,14 @@ PHP_MINFO_FUNCTION(pinyin)
 PHP_FUNCTION(pinyin)
 {
 	
-
+	char tmp[3];
 	char *arg = NULL;
 	int arg_len, i=0;//i is index of the array
 	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s", &arg, &arg_len) == FAILURE) {
 		return;
 	}
+	memset(tmp,0,sizeof(char)*3);
 	arg=strncpy(tmp,arg,2);//just get the 1st chinese character
 	
 
