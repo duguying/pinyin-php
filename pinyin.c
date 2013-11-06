@@ -170,34 +170,25 @@ PHP_MINFO_FUNCTION(pinyin)
 
 PHP_FUNCTION(pinyin)
 {
+	
+
 	char *arg = NULL;
 	int arg_len, i=0;//i is index of the array
-	cchar* rs;//pinyin search result
-	char tmp[3];
-	tmp[2]=0;
+	
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s", &arg, &arg_len) == FAILURE) {
 		return;
 	}
 	arg=strncpy(tmp,arg,2);//just get the 1st chinese character
-	g_ll=createLongLink(g_ll,cnchar,pinyin,py);
-	rs=searchCnChar(g_ll,arg);
-	if (!rs){
-		printf("%s","mark\n");
-		RETURN_NULL();//if not matched, return null
-	}
-	/*array_init(return_value);
-	add_assoc_string(return_value, "alphabet", rs->pyab, 1);
-	while (rs)
-	{
-		add_index_string(return_value, i, rs->piny, 1);
-		if (rs->next)
-		{
-			rs=rs->next;
-			i++;
-		}else{
-			break;
-		}
-	}*/
+	
+
+	char pinyin_char[8];
+	HashNode *pNode = hash_table_lookup(arg);
+	get_pinyin(pinyin_char, pNode->nValue+1);
+
+	array_init(return_value);
+	
+	add_index_string(return_value, i, pinyin_char, 1);
+
 }
 
 /* }}} */

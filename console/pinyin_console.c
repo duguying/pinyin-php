@@ -6,28 +6,19 @@
  * program entrance
  */
 int main(int argc, char** argv){
+	 
+	pinyin_init();
 	
-	cchar* rs;
-	int i,length;
-	cchar* ll;
-	length=strlen(cnchar)/2;
-	ll=(cchar*)malloc(sizeof(cnchar)*length);
-	for(i=0;i<10000;i++){
-		createLongLink(ll,cnchar,pinyin,py);
-		if(3==argc){
-			if(!strcmp(argv[1],"-s")){
-				rs=searchCnChar(ll,argv[2]);
-				while(rs){
-					printf("%s:%s %s\n",rs->cnch,rs->piny,rs->pyab);
-					if(rs->next){
-						rs=rs->next;
-					}else{
-						break;
-					}
-				}
-			}
-		}
-	}
+	char pinyin_char[8];
+	HashNode *pNode = hash_table_lookup("胫");
+	get_pinyin(pinyin_char, pNode->nValue+1);
+	printf("lookup result:%s\n", pinyin_char);
+	pNode = hash_table_lookup("一");
+	get_pinyin(pinyin_char, pNode->nValue+1);
+	printf("lookup result:%s\n", pinyin_char);
+	pNode = hash_table_lookup("龠");
+	get_pinyin(pinyin_char, pNode->nValue+1);
+	printf("lookup result:%s\n", pinyin_char);
 	
 	return 0;
 }
