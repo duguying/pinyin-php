@@ -18,13 +18,13 @@ void get_pinyin(char pinyin_char[8], int index){
 void pinyin_init(){
 	int cn_count,pinyin_arr_count,pinyin_index;
 	int index[MAX_LEN];
-	char tmp[3];
+	char tmp[4];
 	int i,j;
 
 	hash_table_init();
 	cn_count=strlen(cnchar)/3;
 	pinyin_arr_count=strlen(pinyin);
-	printf("%d\n", cn_count);
+	// printf("%d\n", cn_count);
 
 	//scan pinyin
 	pinyin_index=0;
@@ -39,15 +39,15 @@ void pinyin_init(){
 
 	for (i = 0; i < cn_count; i++)
 	{
-		memset(tmp, 0, sizeof(char)*3);
+		memset(tmp, 0, sizeof(char)*4);
 		strncpy(tmp, (cnchar+3*(i)), 3);
 		hash_table_insert(tmp, index[i]);
 	}
 
-	 char pinyin_char[8];
-	 HashNode *pNode = hash_table_lookup("胫");
-	 get_pinyin(pinyin_char, pNode->nValue+1);
-	 printf("lookup result:%s\n", pinyin_char);
+	 // char pinyin_char[8];
+	 // HashNode *pNode = hash_table_lookup("胫");
+	 // get_pinyin(pinyin_char, pNode->nValue+1);
+	 // printf("lookup result:%s\n", pinyin_char);
 	// pNode = hash_table_lookup("一");
 	// get_pinyin(pinyin_char, pNode->nValue+1);
 	// printf("lookup result:%s\n", pinyin_char);
