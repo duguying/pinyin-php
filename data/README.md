@@ -1,3 +1,11 @@
+# get the latest data #
+
+you can get the latest data file(pinyin.inc) from the internet via run the script `getData.sh`.
+
+```
+./getData.sh
+```
+
 ## pinyin-php resource build ##
 
 ----------
