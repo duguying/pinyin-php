@@ -59,8 +59,8 @@ ZEND_GET_MODULE(pinyin)
 
 PHP_MINIT_FUNCTION(pinyin)
 {
-	zval dict;
-	ZEND_SET_GLOBAL_VAR(name, dict)
+	// zval dict;
+	// ZEND_SET_GLOBAL_VAR(name, dict)
 	return SUCCESS;
 }
 
@@ -85,7 +85,8 @@ PHP_MINFO_FUNCTION(pinyin)
 	php_info_print_table_start();
 	php_info_print_table_header(2, "pinyin support", "enabled");
 	php_info_print_table_row(2, "author", "Rex Lee"); 
-	php_info_print_table_row(2, "version", "0.1");
+	php_info_print_table_row(2, "version", "0.2");
+	php_info_print_table_row(2, "function", "pinyin(void) return a array which is a dictionary.");
 	php_info_print_table_end();
 
 }
