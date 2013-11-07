@@ -9,13 +9,6 @@
 #define DE '|'
 #define MAX_LEN 10000
 
-void get_pinyin(char* pinyin_char, int index){
-	memset(pinyin_char, 0, sizeof(char)*8);
-	strncpy(pinyin_char, pinyin+index, 8);
-	strtok(pinyin_char,"|");
-}
-
-
 void pinyin_init(zval* dict){
 	int cn_count,pinyin_arr_count,pinyin_index;
 	int index[MAX_LEN];
