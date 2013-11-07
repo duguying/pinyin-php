@@ -39,10 +39,9 @@ void pinyin_init(zval* dict){
 	for (i = 0; i < cn_count; i++)
 	{
 		memset(tmp, 0, sizeof(char)*4);
-		memset(tmp, 0, sizeof(char)*8);
 		strncpy(tmp, (cnchar+3*(i)), 3);
 		
-		add_assoc_string(dict, tmp, (pinyin+index[i]+1), 0);
+		add_assoc_string(dict, tmp, (pinyin+index[i]+1), 1);
 	}
 
 }
