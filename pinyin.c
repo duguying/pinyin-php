@@ -27,27 +27,13 @@
 #include "ext/standard/info.h"
 #include "php_pinyin.h"
 
-/* If you declare any globals in php_pinyin.h uncomment this:
-ZEND_DECLARE_MODULE_GLOBALS(pinyin)
-*/
-
-
-/* True global resources - no need for thread safety here */
 static int le_pinyin;
 
-/* {{{ pinyin_functions[]
- *
- * Every user visible function must have an entry in pinyin_functions[].
- */
 const zend_function_entry pinyin_functions[] = {
 	PHP_FE(pinyin,	NULL)
-	NULL//PHP_FE_END	/* Must be the last line in pinyin_functions[] */
+	{NULL,NULL,NULL}	/* Must be the last line in pinyin_functions[] */
 };
 
-/* }}} */
-
-/* {{{ pinyin_module_entry
- */
 zend_module_entry pinyin_module_entry = {
 #if ZEND_MODULE_API_NO >= 20010901
 	STANDARD_MODULE_HEADER,
@@ -64,88 +50,36 @@ zend_module_entry pinyin_module_entry = {
 #endif
 	STANDARD_MODULE_PROPERTIES
 };
-/* }}} */
+
 
 #ifdef COMPILE_DL_PINYIN
 ZEND_GET_MODULE(pinyin)
 #endif
 
-/* {{{ PHP_INI
- */
-/* Remove comments and fill if you need to have entries in php.ini
-PHP_INI_BEGIN()
-    STD_PHP_INI_ENTRY("pinyin.global_value",      "42", PHP_INI_ALL, OnUpdateLong, global_value, zend_pinyin_globals, pinyin_globals)
-    STD_PHP_INI_ENTRY("pinyin.global_string", "foobar", PHP_INI_ALL, OnUpdateString, global_string, zend_pinyin_globals, pinyin_globals)
-PHP_INI_END()
-*/
-/* }}} */
 
-/* {{{ php_pinyin_init_globals
- */
-/* Uncomment this function if you have INI entries
-static void php_pinyin_init_globals(zend_pinyin_globals *pinyin_globals)
-{
-	pinyin_globals->global_value = 0;
-	pinyin_globals->global_string = NULL;
-}
-*/
-/* }}} */
-
-/* {{{ PHP_MINIT_FUNCTION
- */
-//cchar* g_ll;//global longlink
 PHP_MINIT_FUNCTION(pinyin)
 {
-	/* If you have INI entries, uncomment these lines 
-	REGISTER_INI_ENTRIES();
-	*/
-	//int length,i;
-	//cchar* llp;//longlink pointer
-	//length=strlen(cnchar)/2;
-	//printf("%d",length);
-	//llp=g_ll=(cchar*)emalloc(sizeof(cnchar));
-	//for (i=0;i<length-1;i++)
-	//{
-	//	llp->next=(cchar*)emalloc(sizeof(cnchar));
-	//	llp=llp->next;
-	//}
-	//llp->next=0;
-	//g_ll=(cchar*)emalloc(sizeof(cnchar)*length);//use `emalloc` not `malloc`
+	zval dict;
+	ZEND_SET_GLOBAL_VAR(name, dict)
 	return SUCCESS;
 }
-/* }}} */
 
-/* {{{ PHP_MSHUTDOWN_FUNCTION
- */
+
 PHP_MSHUTDOWN_FUNCTION(pinyin)
 {
-	/* uncomment this line if you have INI entries
-	UNREGISTER_INI_ENTRIES();
-	*/
 	return SUCCESS;
 }
-/* }}} */
 
-/* Remove if there's nothing to do at request start */
-/* {{{ PHP_RINIT_FUNCTION
- */
 PHP_RINIT_FUNCTION(pinyin)
 {
 	return SUCCESS;
 }
-/* }}} */
 
-/* Remove if there's nothing to do at request end */
-/* {{{ PHP_RSHUTDOWN_FUNCTION
- */
 PHP_RSHUTDOWN_FUNCTION(pinyin)
 {
 	return SUCCESS;
 }
-/* }}} */
 
-/* {{{ PHP_MINFO_FUNCTION
- */
 PHP_MINFO_FUNCTION(pinyin)
 {
 	php_info_print_table_start();
@@ -154,50 +88,12 @@ PHP_MINFO_FUNCTION(pinyin)
 	php_info_print_table_row(2, "version", "0.1");
 	php_info_print_table_end();
 
-	/* Remove comments if you have entries in php.ini
-	DISPLAY_INI_ENTRIES();
-	*/
 }
-/* }}} */
-
-/* Remove the following function when you have succesfully modified config.m4
-   so that your module can be compiled into PHP, it exists only for testing
-   purposes. */
-
-/* Every user-visible function in PHP should document itself in the source */
-/* {{{ proto string confirm_pinyin_compiled(string arg)
-   Return a string to confirm that the module is compiled in */
 
 PHP_FUNCTION(pinyin)
 {
-	
-	char tmp[3];
-	char *arg = NULL;
-	int arg_len, i=0;//i is index of the array
-	
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s", &arg, &arg_len) == FAILURE) {
-		return;
-	}
-	memset(tmp,0,sizeof(char)*3);
-	arg=strncpy(tmp,arg,2);//just get the 1st chinese character
-	
-
-	char pinyin_char[8];
-	HashNode *pNode = hash_table_lookup(arg);
-	get_pinyin(pinyin_char, pNode->nValue+1);
-
-	array_init(return_value);
-	
-	add_index_string(return_value, i, pinyin_char, 1);
-
+	pinyin_init(return_value);	
 }
-
-/* }}} */
-/* The previous line is meant for vim and emacs, so it can correctly fold and 
-   unfold functions in source code. See the corresponding marks just before 
-   function definition, where the functions purpose is also documented. Please 
-   follow this convention for the convenience of others editing your code.
-*/
 
 
 /*

@@ -2,29 +2,31 @@
 #include <string.h>
 #include <malloc.h>
 #include "./pinyin.inc"
-#include "hashtable.c"
+#include "php.h"
 
 #ifndef FUNS_C
 #define FUNS_C
 #define DE '|'
 #define MAX_LEN 10000
 
-void get_pinyin(char pinyin_char[8], int index){
+void get_pinyin(char* pinyin_char, int index){
 	memset(pinyin_char, 0, sizeof(char)*8);
 	strncpy(pinyin_char, pinyin+index, 8);
 	strtok(pinyin_char,"|");
 }
 
-void pinyin_init(){
+
+void pinyin_init(zval* dict){
 	int cn_count,pinyin_arr_count,pinyin_index;
 	int index[MAX_LEN];
 	char tmp[4];
+	char pinyin_char[8];
 	int i,j;
+	
+	array_init(dict);
 
-	hash_table_init();
 	cn_count=strlen(cnchar)/3;
 	pinyin_arr_count=strlen(pinyin);
-	// printf("%d\n", cn_count);
 
 	//scan pinyin
 	pinyin_index=0;
@@ -36,24 +38,20 @@ void pinyin_init(){
 			pinyin_index++;
 		}
 	}
+	
+	for(j=0;j<cn_count;j++){
+		strtok(pinyin+index[j]+1,"|");
+	}
 
 	for (i = 0; i < cn_count; i++)
 	{
 		memset(tmp, 0, sizeof(char)*4);
+		memset(tmp, 0, sizeof(char)*8);
 		strncpy(tmp, (cnchar+3*(i)), 3);
-		hash_table_insert(tmp, index[i]);
+		
+		add_assoc_string(dict, tmp, (pinyin+index[i]+1), 0);
 	}
 
-	 // char pinyin_char[8];
-	 // HashNode *pNode = hash_table_lookup("胫");
-	 // get_pinyin(pinyin_char, pNode->nValue+1);
-	 // printf("lookup result:%s\n", pinyin_char);
-	// pNode = hash_table_lookup("一");
-	// get_pinyin(pinyin_char, pNode->nValue+1);
-	// printf("lookup result:%s\n", pinyin_char);
-	// pNode = hash_table_lookup("龠");
-	// get_pinyin(pinyin_char, pNode->nValue+1);
-	// printf("lookup result:%s\n", pinyin_char);
 }
 
 #endif
