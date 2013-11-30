@@ -2,7 +2,7 @@ language: c
 compiler: 
     - "gcc"
 before_script:
-    - "sudo apt-get install php-devel"
+    - "sudo apt-get install php5-dev"
 script: 
     - "phpize"
     - "./configure"
