@@ -1,6 +1,8 @@
 language: c
 compiler: 
     - "gcc"
+before_script:
+	- sudo apt-get install php-devel
 script: 
     - "phpize"
     - "./configure"

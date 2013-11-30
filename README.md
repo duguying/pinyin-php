@@ -4,6 +4,8 @@
 
 [![Build Status](https://drone.io/github.com/duguying/pinyin-php/status.png)](https://drone.io/github.com/duguying/pinyin-php/latest)
 
+[![travis](https://api.travis-ci.org/duguying/pinyin-php.png)](https://travis-ci.org/duguying/pinyin-php)
+
 ***pinyin-php*** is a php extension which could translate Chinese character into Chinese PinYin.
 
 ## console application ##
