@@ -2,7 +2,7 @@
 #include <string.h>
 #include <malloc.h>
 #include "./pinyin.inc"
-#include "php.h"
+#include "main/php.h"
 
 #ifndef FUNS_C
 #define FUNS_C
