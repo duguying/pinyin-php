@@ -22,3 +22,26 @@
 
 # cmake
 /libsrc/build/
+
+# php-ext tmps
+*.nice
+*.status
+*.sub
+*.guess
+/configure*
+/include
+ac*
+/autom4te.cache/
+/build/
+config.h*
+config.log
+install-sh
+libtool
+ltmain.sh
+Makefile*
+missing
+mkinstalldirs
+/modules/
+run-tests.php
+/.deps
+
