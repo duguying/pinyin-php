@@ -1,5 +1,4 @@
 PHP_ARG_WITH(pinyin, for pinyin support,
-Make sure that the comment is aligned:
 [  --with-pinyin             Include pinyin support])
 
 cd ./pinyin/

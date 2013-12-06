@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "test.h"
+#include "pinyin.h"
 
 char* test(){
 	return "this is just a test,lijun.";
