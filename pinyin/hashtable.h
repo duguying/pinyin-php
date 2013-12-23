@@ -22,13 +22,13 @@ typedef struct HashNode HashNode;
 struct HashNode
 {
     char* sKey;
-    int nValue;
+    void* nValue;
     HashNode* pNext;
 } ;
 
-typedef struct HashTable HashTable;
+typedef struct i_HashTable i_HashTable;
 
-struct HashTable
+struct i_HashTable
 {
 	int ht_size;
 	HashNode* table[HASH_TABLE_MAX_SIZE];
@@ -40,7 +40,7 @@ struct HashTable
  * 
  * @param HashTable the pointer of hashtable
  */
-void ht_init(HashTable* hash_table);
+void ht_init(i_HashTable* hash_table);
 
 /**
  * @brief insert key-value into hash table
@@ -50,7 +50,7 @@ void ht_init(HashTable* hash_table);
  * @param skey key
  * @param nvalue value
  */
-void ht_insert(HashTable* hash_table, const char* skey, int nvalue);
+void ht_insert(i_HashTable* hash_table, const char* skey, void* nvalue);
 
 /**
  * @brief remove the hash node from hashtable
@@ -59,7 +59,7 @@ void ht_insert(HashTable* hash_table, const char* skey, int nvalue);
  * @param HashTable the hashtable
  * @param skey the key of hashtable you'll remove
  */
-void ht_remove(HashTable* hash_table, const char* skey);
+void ht_remove(i_HashTable* hash_table, const char* skey);
 
 /**
  * @brief [brief description]
@@ -69,7 +69,7 @@ void ht_remove(HashTable* hash_table, const char* skey);
  * @param skey [description]
  * @return [description]
  */
-HashNode* ht_lookup(HashTable* hash_table, const char* skey);
+HashNode* ht_lookup(i_HashTable* hash_table, const char* skey);
 
 /**
  * @brief release the hashtable
@@ -77,6 +77,6 @@ HashNode* ht_lookup(HashTable* hash_table, const char* skey);
  * 
  * @param hash_table the hashtable
  */
-void ht_release(HashTable* hash_table);
+void ht_release(i_HashTable* hash_table);
 
 #endif

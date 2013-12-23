@@ -1,6 +1,12 @@
 #include <stdio.h>
 #include "pinyin.h"
 
-char* test(){
-	return "this is just a test,lijun.";
+int main(void){
+	char* rst;
+
+	pinyin_init();
+	rst=pinyin_get("原");
+	
+	printf("%s\n", rst);
+	return 0;
 }

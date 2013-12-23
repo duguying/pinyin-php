@@ -26,6 +26,7 @@
 #include "php_ini.h"
 #include "ext/standard/info.h"
 #include "php_pinyin.h"
+#include "pinyin/pinyin.h"
 
 static int le_pinyin;
 
@@ -59,8 +60,6 @@ ZEND_GET_MODULE(pinyin)
 
 PHP_MINIT_FUNCTION(pinyin)
 {
-	// zval dict;
-	// ZEND_SET_GLOBAL_VAR(name, dict)
 	return SUCCESS;
 }
 
@@ -72,6 +71,7 @@ PHP_MSHUTDOWN_FUNCTION(pinyin)
 
 PHP_RINIT_FUNCTION(pinyin)
 {
+	pinyin_init();
 	return SUCCESS;
 }
 
@@ -93,7 +93,10 @@ PHP_MINFO_FUNCTION(pinyin)
 
 PHP_FUNCTION(pinyin)
 {
-	pinyin_init(return_value);	
+	int len=0;
+	char* pyr=pinyin_get("原");
+	len=strlen(pyr);
+	RETURN_STRINGL(pyr, len, 0);
 }
 
 

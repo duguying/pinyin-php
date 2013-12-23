@@ -19,9 +19,9 @@
  * 
  * @param HashTable the pointer of hashtable
  */
-void ht_init(HashTable* hash_table)
+void ht_init(i_HashTable* hash_table)
 {
-    memset(hash_table, 0, sizeof(HashTable));
+    memset(hash_table, 0, sizeof(i_HashTable));
     hash_table->ht_size= 0;  //the number of key-value pairs in the hash table!
 }
 
@@ -52,7 +52,7 @@ unsigned int ht_hash_str(const char* skey)
  * @param skey key
  * @param nvalue value
  */
-void ht_insert(HashTable* hash_table, const char* skey, int nvalue)
+void ht_insert(i_HashTable* hash_table, const char* skey, void* nvalue)
 {
 	unsigned int pos;
 	HashNode* pHead;
@@ -86,7 +86,7 @@ void ht_insert(HashTable* hash_table, const char* skey, int nvalue)
 }
 
 
-void hash_table_print(HashTable* hash_table){
+void ht_print(i_HashTable* hash_table){
 	int i;
 
     printf("===========content of hash table=================\n");
@@ -97,7 +97,7 @@ void hash_table_print(HashTable* hash_table){
             printf("%d=>", i);
             while (pHead)
             {
-                printf("%s:%d  ", pHead->sKey, pHead->nValue);
+                printf("%s:%s  ", pHead->sKey, (char*)pHead->nValue);
                 pHead = pHead->pNext;
             }
             printf("\n");
@@ -112,7 +112,7 @@ void hash_table_print(HashTable* hash_table){
  * @param HashTable the hashtable
  * @param skey the key of hashtable you'll remove
  */
-void ht_remove(HashTable* hash_table, const char* skey){
+void ht_remove(i_HashTable* hash_table, const char* skey){
     unsigned int pos = ht_hash_str(skey) % HASH_TABLE_MAX_SIZE;
 
     if(hash_table->table[pos])
@@ -150,7 +150,7 @@ void ht_remove(HashTable* hash_table, const char* skey){
  * @param skey [description]
  * @return [description]
  */
-HashNode* ht_lookup(HashTable* hash_table, const char* skey){
+HashNode* ht_lookup(i_HashTable* hash_table, const char* skey){
     HashNode* pHead;
     unsigned int pos = ht_hash_str(skey) % HASH_TABLE_MAX_SIZE;
     
@@ -176,7 +176,7 @@ HashNode* ht_lookup(HashTable* hash_table, const char* skey){
  * 
  * @param hash_table the hashtable
  */
-void ht_release(HashTable* hash_table){
+void ht_release(i_HashTable* hash_table){
     int i;
     HashNode* pTemp;
     HashNode* pHead;
@@ -199,6 +199,6 @@ void ht_release(HashTable* hash_table){
         }
     }
 
-    memset(hash_table, 0, sizeof(HashTable));
+    memset(hash_table, 0, sizeof(i_HashTable));
 }
 
