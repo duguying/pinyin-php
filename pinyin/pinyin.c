@@ -5,9 +5,6 @@
 #include "pinyin.h"
 #include "../pinyin.inc"
 
-///dictionary
-i_HashTable dict;
-
 /**
  * initialize pinyin
  * @return

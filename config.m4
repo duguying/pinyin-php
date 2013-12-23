@@ -6,10 +6,11 @@ make
 cd ..
 
 PHP_ADD_INCLUDE(pinyin)
-PHP_ADD_LIBRARY_WITH_PATH(pinyin, pinyin, PINYIN_LIBADD)
 
-echo $PHP_PINYIN
+PHP_ADD_LIBPATH(pinyin, PINYIN_SHARED_LIBADD)
+PHP_ADD_LIBRARY(pinyin,pinyin, PINYIN_SHARED_LIBADD)
+PHP_SUBST(PINYIN_SHARED_LIBADD)
 
 if test "$PHP_PINYIN" != "no"; then
-  PHP_NEW_EXTENSION(pinyin, pinyin.c, $ext_shared)
+  PHP_NEW_EXTENSION(pinyin, pinyin.c ,$ext_shared)
 fi

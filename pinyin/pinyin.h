@@ -10,6 +10,9 @@
 #define DE '|'
 #define MAX_LEN 10000
 
+///dictionary
+static i_HashTable dict;
+
 /**
  * initialize pinyin
  * @return

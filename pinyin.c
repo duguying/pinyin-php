@@ -71,7 +71,7 @@ PHP_MSHUTDOWN_FUNCTION(pinyin)
 
 PHP_RINIT_FUNCTION(pinyin)
 {
-	pinyin_init();
+	// pinyin_init();
 	return SUCCESS;
 }
 
@@ -93,10 +93,10 @@ PHP_MINFO_FUNCTION(pinyin)
 
 PHP_FUNCTION(pinyin)
 {
-	int len=0;
-	char* pyr=pinyin_get("原");
-	len=strlen(pyr);
-	RETURN_STRINGL(pyr, len, 0);
+	// int len=0;
+	// char* pyr=pinyin_get("原");
+	// len=strlen(pyr);
+	RETURN_STRINGL("pyr", 5, 0);
 }
 
 

@@ -6,4 +6,4 @@ all:
 	echo "\033[33;1mprecompiled over!\033[0m"
 clean:
 	rm *.o
-	rm *.a
+	rm *.la
