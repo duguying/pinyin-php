@@ -21,7 +21,7 @@
 /tmp/
 
 # cmake
-/libsrc/build/
+/pinyin/build/
 
 # php-ext tmps
 *.nice
