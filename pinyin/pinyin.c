@@ -27,14 +27,13 @@ i_HashTable* pinyin_init(){
 		{
 			index[pinyin_index]=j;
 			pinyin_index++;
-
 		}
 	}
 
 	for(j=0;j<cn_count;j++){
-		strtok(pinyin+index[j]+1,"|");
-
+		strtok(pinyin+index[j]+1,"|");//cnchar
 	}
+
 
 	for (i = 0; i < cn_count; i++)
 	{
@@ -53,5 +52,17 @@ i_HashTable* pinyin_init(){
  * @return pinyin string
  */
 char* pinyin_get(char* cn){
+	char cnc[3];
+	memset(cnc,0,sizeof(char)*);
+	strncpy(cnc,cn,2);
 	return (char*)ht_lookup(&dict, cn)->nValue;
+}
+
+/**
+ * @brief release the pinyin dictionary
+ * @details [long description]
+ * 
+ */
+void pinyin_destroy(){
+	ht_release(&dict);
 }

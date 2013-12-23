@@ -11,7 +11,7 @@
 #define MAX_LEN 10000
 
 ///dictionary
-static i_HashTable dict;
+i_HashTable dict;
 
 /**
  * initialize pinyin
@@ -25,5 +25,7 @@ i_HashTable* pinyin_init();
  * @return pinyin string
  */
 char* pinyin_get(char* cn);
+
+void pinyin_destroy();
 
 #endif

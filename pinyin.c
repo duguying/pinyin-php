@@ -60,6 +60,7 @@ ZEND_GET_MODULE(pinyin)
 
 PHP_MINIT_FUNCTION(pinyin)
 {
+	pinyin_init();
 	return SUCCESS;
 }
 
@@ -71,7 +72,6 @@ PHP_MSHUTDOWN_FUNCTION(pinyin)
 
 PHP_RINIT_FUNCTION(pinyin)
 {
-	// pinyin_init();
 	return SUCCESS;
 }
 
@@ -85,26 +85,22 @@ PHP_MINFO_FUNCTION(pinyin)
 	php_info_print_table_start();
 	php_info_print_table_header(2, "pinyin support", "enabled");
 	php_info_print_table_row(2, "author", "Rex Lee"); 
-	php_info_print_table_row(2, "version", "0.21");
-	php_info_print_table_row(2, "function", "pinyin(void) return a array which is a dictionary.");
+	php_info_print_table_row(2, "version", "0.3.0");
+	php_info_print_table_row(2, "function", "pinyin(string cnchar) return a string which is the pinyin.");
 	php_info_print_table_end();
 
 }
 
 PHP_FUNCTION(pinyin)
 {
-	// int len=0;
-	// char* pyr=pinyin_get("原");
-	// len=strlen(pyr);
-	RETURN_STRINGL("pyr", 5, 0);
+	char* cn_word;
+    int int_hello_str_length;
+	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,"s",&cn_word,&int_hello_str_length)== FAILURE)
+    {
+        RETURN_NULL();
+    }
+
+	char* pyr=pinyin_get(cn_word);
+	ZVAL_STRING(return_value, pyr, 1);
 }
 
-
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * End:
- * vim600: noet sw=4 ts=4 fdm=marker
- * vim<600: noet sw=4 ts=4
- */
