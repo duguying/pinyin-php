@@ -47,7 +47,7 @@ zend_module_entry pinyin_module_entry = {
 	PHP_RSHUTDOWN(pinyin),	/* Replace with NULL if there's nothing to do at request end */
 	PHP_MINFO(pinyin),
 #if ZEND_MODULE_API_NO >= 20010901
-	"0.1", /* Replace with version number for your extension */
+	"0.3", /* Replace with version number for your extension */
 #endif
 	STANDARD_MODULE_PROPERTIES
 };
