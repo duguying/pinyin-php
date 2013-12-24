@@ -53,7 +53,7 @@ i_HashTable* pinyin_init(){
  */
 char* pinyin_get(char* cn){
 	char cnc[3];
-	memset(cnc,0,sizeof(char)*);
+	memset(cnc,0,sizeof(char)*3);
 	strncpy(cnc,cn,2);
 	return (char*)ht_lookup(&dict, cn)->nValue;
 }
