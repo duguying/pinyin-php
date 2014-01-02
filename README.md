@@ -7,22 +7,12 @@
 
 ***pinyin-php*** is a php extension which could translate Chinese character into Chinese PinYin.
 
-## console application ##
-before the extension file(`*.so`,`*.dll`) build, we will develop a console application for development and debug. <br>
-**build**
+## build and install ##
+**linux**
 
-1. build resource file, refer to `/data/README.md`
-2. build the application<br>
+build the extension<br>
 
-```
-cd pinyin-php/console/build
-cmake
-make
-```
-
-3. build the extension<br>
-
-```
+```shell
 phpize
 configure
 make
