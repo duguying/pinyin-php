@@ -41,8 +41,8 @@ i_HashTable* pinyin_init(){
 		memset(tmp, 0, sizeof(char)*4);
 		strncpy(tmp, (cnchar+JMP*(i)), JMP);
 		
-		//printf("key: %s\tvalue: %s\n", tmp, (pinyin+index[i]+1));
 		tmp_py=(pinyin+index[i]+1);
+
 		ht_insert(&dict, tmp, tmp_py);
 	}
 
@@ -56,7 +56,7 @@ i_HashTable* pinyin_init(){
  * @return pinyin string
  */
 char* pinyin_get(char* cn){
-	char single_cn_buf[3];
+	char single_cn_buf[JMP+1];
 	unsigned int len=0;
 	unsigned int len_pybuf=0;
 	unsigned int flag_cnchar_buf=0;
@@ -68,26 +68,22 @@ char* pinyin_get(char* cn){
 	len_pybuf=(len/2)*7+1;
 	pybuf_pos=pybuf=(char*)malloc(len_pybuf);
 	memset(pybuf,0,len_pybuf);
-	memset(single_cn_buf,0,3);
+	memset(single_cn_buf,0,JMP+1);
 
 	// strip ascii
 	for (i = 0; i < len; ++i)
 	{
 		
 		if(cn[i]<0){ // chinese char
-			if(0==flag_cnchar_buf){
-				single_cn_buf[0]=cn[i];
-				flag_cnchar_buf=1;
-				
-				//printf("0[%d] put into buff\n", cn[i]);
+			if((JMP-1)!=flag_cnchar_buf){
+				single_cn_buf[flag_cnchar_buf]=cn[i];
+				++flag_cnchar_buf;
 			}else{
 				char* single_cn_pinyin=NULL;
 				unsigned int len_of_py=0;
 				HashNode* result_node=NULL;
 				
-				//printf("1[%d] put into buff\n", cn[i]);
-				
-				single_cn_buf[1]=cn[i];
+				single_cn_buf[flag_cnchar_buf]=cn[i];
 				flag_cnchar_buf=0;
 				// translate
 				
@@ -99,18 +95,16 @@ char* pinyin_get(char* cn){
 					pybuf_pos+=len_of_py;
 				}else{
 					single_cn_pinyin=(char*)result_node->nValue;
-					//printf("result: %s\n", single_cn_pinyin);
 					len_of_py=strlen(single_cn_pinyin);
 					strncpy(pybuf_pos,single_cn_pinyin,len_of_py);
 					pybuf_pos+=len_of_py;
 				}
 
-				memset(single_cn_buf, 0, 3);
+				memset(single_cn_buf, 0, JMP+1);
 			}
 		}else{ // other
-			//printf("~[%d] put into buff\n", cn[i]);
 			memset(pybuf_pos,cn[i],1);
-			pybuf_pos+=1;
+			++pybuf_pos;
 		}
 	}
 

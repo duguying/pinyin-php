@@ -3,7 +3,7 @@
 
 int main(int argc, char const *argv[])
 {
-	char* rst;int i=0;char* source="¤ï¤¿¤·¤ïÀî¿¡, and my English name is Rex Lee. ÍøÃûÊÇ¶À¹ÂÓ°£¡ ^_^";
+	char* rst;int i=0;char* source="ã‚ãŸã—ã‚æŽä¿Š, and my English name is Rex Lee. ç½‘åæ˜¯ç‹¬å­¤å½±ï¼ ^_^";
 	//HashNode* result_node;
 	
 	pinyin_init();
@@ -16,7 +16,7 @@ int main(int argc, char const *argv[])
 		}
 	}*/
 	
-	//source="Ò»";
+	//source="Ã’Â»";
 	//result_node=(HashNode*)ht_lookup(&dict, source);
 	//rst=(char*)result_node->pNext->nValue;
 	
