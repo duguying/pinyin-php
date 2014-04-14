@@ -1,4 +1,4 @@
-#ifndef RS
+﻿#ifndef RS
 char cnchar[]="一"
 "丁"
 "七"

@@ -28,5 +28,3 @@ the file `pinyin.inc`, it is a resource file. of course, you needn't change the 
 MIT License
 
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/duguying/pinyin-php/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
