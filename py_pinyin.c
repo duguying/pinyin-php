@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "hashtable.h"
-#include "pinyin.h"
-#include "../pinyin.inc"
+#include "py_hashtable.h"
+#include "py_pinyin.h"
+#include "pinyin.inc"
 
 /**
  * initialize pinyin

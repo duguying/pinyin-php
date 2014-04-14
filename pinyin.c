@@ -26,7 +26,7 @@
 #include "php_ini.h"
 #include "ext/standard/info.h"
 #include "php_pinyin.h"
-#include "pinyin/pinyin.h"
+#include "py_pinyin.h"
 
 static int le_pinyin;
 
@@ -94,13 +94,14 @@ PHP_MINFO_FUNCTION(pinyin)
 PHP_FUNCTION(pinyin)
 {
 	char* cn_word;
+	char* pyr;
     int int_hello_str_length;
 	if(zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC,"s",&cn_word,&int_hello_str_length)== FAILURE)
     {
         RETURN_NULL();
     }
 
-	char* pyr=pinyin_get(cn_word);
+	pyr=pinyin_get(cn_word);
 	ZVAL_STRING(return_value, pyr, 1);
 }
 

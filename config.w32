@@ -1,0 +1,6 @@
+ARG_ENABLE("pinyin", "for pinyin support", "yes");
+
+EXTENSION("pinyin", "pinyin.c \
+					py_hashtable.c \
+					py_pinyin.c");
+

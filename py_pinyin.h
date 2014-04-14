@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "hashtable.h"
+#include "py_hashtable.h"
 
 
 #ifndef _PINYIN_MOD_H_
