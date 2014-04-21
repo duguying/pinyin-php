@@ -4,6 +4,7 @@
 int main(int argc, char const *argv[])
 {
 	char* rst;int i=0;char* source="わたしわ李俊, and my English name is Rex Lee. 网名是独孤影！ ^_^";
+	//HashNode* result_node;
 	
 	pinyin_init();
 
@@ -14,6 +15,10 @@ int main(int argc, char const *argv[])
 			printf("%d\n", source[i]);
 		}
 	}*/
+	
+	//source="一";
+	//result_node=(HashNode*)ht_lookup(&dict, source);
+	//rst=(char*)result_node->pNext->nValue;
 	
 	rst=pinyin_get(source);
 	printf("%s\n%s", source, rst);

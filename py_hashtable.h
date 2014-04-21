@@ -80,4 +80,6 @@ HashNode* ht_lookup(i_HashTable* hash_table, const char* skey);
  */
 void ht_release(i_HashTable* hash_table);
 
+void ht_print(i_HashTable* hash_table);
+
 #endif

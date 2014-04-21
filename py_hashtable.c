@@ -160,7 +160,7 @@ HashNode* ht_lookup(i_HashTable* hash_table, const char* skey){
         while(pHead)
         {
             if(strcmp(skey, pHead->sKey) == 0){
-                return hash_table->table[pos];
+                return pHead;//hash_table->table[pos];
             }else{
                 pHead = pHead->pNext;
             }

@@ -36,12 +36,17 @@ i_HashTable* pinyin_init(){
 
 	for (i = 0; i < cn_count; i++)
 	{
+		char* tmp_py;
+
 		memset(tmp, 0, sizeof(char)*4);
 		strncpy(tmp, (cnchar+JMP*(i)), JMP);
 		
-		ht_insert(&dict, tmp, (pinyin+index[i]+1));
+		//printf("key: %s\tvalue: %s\n", tmp, (pinyin+index[i]+1));
+		tmp_py=(pinyin+index[i]+1);
+		ht_insert(&dict, tmp, tmp_py);
 	}
 
+	//ht_print(&dict);
 	return &dict;
 }
 
@@ -68,6 +73,7 @@ char* pinyin_get(char* cn){
 	// strip ascii
 	for (i = 0; i < len; ++i)
 	{
+		
 		if(cn[i]<0){ // chinese char
 			if(0==flag_cnchar_buf){
 				single_cn_buf[0]=cn[i];
@@ -92,11 +98,14 @@ char* pinyin_get(char* cn){
 					strncpy(pybuf_pos,single_cn_buf,len_of_py);
 					pybuf_pos+=len_of_py;
 				}else{
-					single_cn_pinyin=result_node->nValue;
+					single_cn_pinyin=(char*)result_node->nValue;
+					//printf("result: %s\n", single_cn_pinyin);
 					len_of_py=strlen(single_cn_pinyin);
 					strncpy(pybuf_pos,single_cn_pinyin,len_of_py);
 					pybuf_pos+=len_of_py;
 				}
+
+				memset(single_cn_buf, 0, 3);
 			}
 		}else{ // other
 			//printf("~[%d] put into buff\n", cn[i]);
