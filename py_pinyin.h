@@ -9,6 +9,11 @@
 
 #define DE '|'
 #define MAX_LEN 10000
+#if defined _WIN32
+	#define JMP 2
+#else
+	#define JMP 3
+#endif
 
 ///dictionary
 i_HashTable dict;

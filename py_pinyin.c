@@ -12,7 +12,6 @@
 i_HashTable* pinyin_init(){
 	int cn_count,pinyin_arr_count,pinyin_index,i,j,index[MAX_LEN];
 	char tmp[4];
-	char pinyin_char[8];
 
 	memset(&dict,0,sizeof(i_HashTable));
 	ht_init(&dict);
@@ -38,7 +37,7 @@ i_HashTable* pinyin_init(){
 	for (i = 0; i < cn_count; i++)
 	{
 		memset(tmp, 0, sizeof(char)*4);
-		strncpy(tmp, (cnchar+3*(i)), 3);
+		strncpy(tmp, (cnchar+JMP*(i)), JMP);
 		
 		ht_insert(&dict, tmp, (pinyin+index[i]+1));
 	}
