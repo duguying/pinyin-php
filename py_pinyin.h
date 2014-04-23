@@ -16,21 +16,21 @@
 #endif
 
 ///dictionary
-i_HashTable dict;
+//i_HashTable dict;
 
 /**
  * initialize pinyin
  * @return
  */
-i_HashTable* pinyin_init();
+i_HashTable* pinyin_init(i_HashTable* dict);
 
 /**
  * get pinyin by chinese char
  * @param  cn chinese char
  * @return pinyin string
  */
-char* pinyin_get(char* cn);
+char* pinyin_get(i_HashTable* dict, char* cn);
 
-void pinyin_destroy();
+void pinyin_destroy(i_HashTable* dict);
 
 #endif

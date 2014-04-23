@@ -29,6 +29,7 @@
 #include "py_pinyin.h"
 
 static int le_pinyin;
+i_HashTable dict;
 
 const zend_function_entry pinyin_functions[] = {
 	PHP_FE(pinyin,	NULL)
@@ -60,7 +61,7 @@ ZEND_GET_MODULE(pinyin)
 
 PHP_MINIT_FUNCTION(pinyin)
 {
-	pinyin_init();
+	pinyin_init(&dict);
 	return SUCCESS;
 }
 
@@ -101,7 +102,7 @@ PHP_FUNCTION(pinyin)
         RETURN_NULL();
     }
 
-	pyr=pinyin_get(cn_word);
+	pyr=pinyin_get(&dict, cn_word);
 	ZVAL_STRING(return_value, pyr, 1);
 }
 

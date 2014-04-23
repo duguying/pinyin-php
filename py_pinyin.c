@@ -9,12 +9,12 @@
  * initialize pinyin
  * @return
  */
-i_HashTable* pinyin_init(){
+i_HashTable* pinyin_init(i_HashTable* dict){
 	int cn_count,pinyin_arr_count,pinyin_index,i,j,index[MAX_LEN];
 	char tmp[4];
 
-	memset(&dict,0,sizeof(i_HashTable));
-	ht_init(&dict);
+	memset(dict,0,sizeof(i_HashTable));
+	ht_init(dict);
 
 	cn_count=strlen(cnchar)/3;
 	pinyin_arr_count=strlen(pinyin);
@@ -43,11 +43,11 @@ i_HashTable* pinyin_init(){
 		
 		tmp_py=(pinyin+index[i]+1);
 
-		ht_insert(&dict, tmp, tmp_py);
+		ht_insert(dict, tmp, tmp_py);
 	}
 
-	//ht_print(&dict);
-	return &dict;
+	//ht_print(dict);
+	return dict;
 }
 
 /**
@@ -55,7 +55,7 @@ i_HashTable* pinyin_init(){
  * @param  cn chinese char
  * @return pinyin string
  */
-char* pinyin_get(char* cn){
+char* pinyin_get(i_HashTable* dict, char* cn){
 	char single_cn_buf[JMP+1];
 	unsigned int len=0;
 	unsigned int len_pybuf=0;
@@ -87,7 +87,7 @@ char* pinyin_get(char* cn){
 				flag_cnchar_buf=0;
 				// translate
 				
-				result_node=(HashNode*)ht_lookup(&dict, single_cn_buf);
+				result_node=(HashNode*)ht_lookup(dict, single_cn_buf);
 				
 				if(NULL==result_node){
 					len_of_py=strlen(single_cn_buf);
@@ -116,6 +116,6 @@ char* pinyin_get(char* cn){
  * @details [long description]
  * 
  */
-void pinyin_destroy(){
-	ht_release(&dict);
+void pinyin_destroy(i_HashTable* dict){
+	ht_release(dict);
 }
