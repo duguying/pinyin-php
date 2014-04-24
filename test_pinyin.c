@@ -1,4 +1,4 @@
-#include "stdio.h"
+﻿#include "stdio.h"
 #include "py_pinyin.h"
 
 int main(int argc, char const *argv[])

@@ -49,6 +49,4 @@ run-tests.php
 *.lo
 *.bat
 
-# cmake
-CMakeLists.txt
 
