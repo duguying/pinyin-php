@@ -20,6 +20,7 @@ make test
 ```
 
 **win32(cmake)**
+
 使用cmake编译，首先，您必须确保您本地存在PHP SDK(这个SDK可以由您编译php得来)，以及目标php版本的静态库(如`php5ts.lib`)，您可以按以下步骤进行：
 
 - 打开VC命令行(以目标版本为VC9为例)
