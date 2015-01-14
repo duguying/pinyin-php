@@ -10,29 +10,25 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-// #include "dmalloc.h"
 
 #ifndef _HASHTABLE_H_
 #define _HASHTABLE_H_
-
 
 #define HASH_TABLE_MAX_SIZE 10000
 
 typedef struct HashNode HashNode;
 
-struct HashNode
-{
-    char* sKey;
-    void* nValue;
-    HashNode* pNext;
-} ;
+struct HashNode {
+	char *sKey;
+	void *nValue;
+	HashNode *pNext;
+};
 
 typedef struct i_HashTable i_HashTable;
 
-struct i_HashTable
-{
+struct i_HashTable {
 	int ht_size;
-	HashNode* table[HASH_TABLE_MAX_SIZE];
+	HashNode *table[HASH_TABLE_MAX_SIZE];
 };
 
 /**
@@ -41,7 +37,7 @@ struct i_HashTable
  * 
  * @param HashTable the pointer of hashtable
  */
-void ht_init(i_HashTable* hash_table);
+void ht_init(i_HashTable * hash_table);
 
 /**
  * @brief insert key-value into hash table
@@ -51,7 +47,7 @@ void ht_init(i_HashTable* hash_table);
  * @param skey key
  * @param nvalue value
  */
-void ht_insert(i_HashTable* hash_table, const char* skey, void* nvalue);
+void ht_insert(i_HashTable * hash_table, const char *skey, void *nvalue);
 
 /**
  * @brief remove the hash node from hashtable
@@ -60,7 +56,7 @@ void ht_insert(i_HashTable* hash_table, const char* skey, void* nvalue);
  * @param HashTable the hashtable
  * @param skey the key of hashtable you'll remove
  */
-void ht_remove(i_HashTable* hash_table, const char* skey);
+void ht_remove(i_HashTable * hash_table, const char *skey);
 
 /**
  * @brief [brief description]
@@ -70,7 +66,7 @@ void ht_remove(i_HashTable* hash_table, const char* skey);
  * @param skey [description]
  * @return [description]
  */
-HashNode* ht_lookup(i_HashTable* hash_table, const char* skey);
+HashNode *ht_lookup(i_HashTable * hash_table, const char *skey);
 
 /**
  * @brief release the hashtable
@@ -78,8 +74,8 @@ HashNode* ht_lookup(i_HashTable* hash_table, const char* skey);
  * 
  * @param hash_table the hashtable
  */
-void ht_release(i_HashTable* hash_table);
+void ht_release(i_HashTable * hash_table);
 
-void ht_print(i_HashTable* hash_table);
+void ht_print(i_HashTable * hash_table);
 
 #endif

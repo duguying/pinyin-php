@@ -22,3 +22,7 @@ rm missing
 rm install-sh
 rm run-tests.php
 
+rm -rf *.la
+rm -rf src/*.lo
+rm -rf *.a
+rm -rf *.so

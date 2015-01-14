@@ -36,7 +36,7 @@ include_directories(
 set(
 	PY_LIST
 	./src/pinyin.c
-	./src/py_hashtable.c
+	./src/hashtable.c
 	./src/py_pinyin.c
 )
 add_library(php_pinyin SHARED ${PY_LIST})
