@@ -1,0 +1,23 @@
+rm -rf autom4te.cache
+rm -rf build
+rm -rf include
+rm -rf modules
+
+rm acinclude.m4
+rm aclocal.m4
+rm config.sub
+rm configure
+rm configure.in
+rm config.status
+rm config.guess
+rm config.h
+rm config.h.in
+rm config.log
+rm config.nice
+rm Makefile*
+rm ltmain.sh
+rm libtool
+rm mkinstalldirs
+rm missing
+rm install-sh
+
