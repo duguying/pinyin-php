@@ -20,4 +20,5 @@ rm libtool
 rm mkinstalldirs
 rm missing
 rm install-sh
+rm run-tests.php
 
