@@ -24,9 +24,9 @@ struct HashNode {
 	HashNode *pNext;
 };
 
-typedef struct i_HashTable i_HashTable;
+typedef struct PinTable PinTable;
 
-struct i_HashTable {
+struct PinTable {
 	int ht_size;
 	HashNode *table[HASH_TABLE_MAX_SIZE];
 };
@@ -37,7 +37,7 @@ struct i_HashTable {
  * 
  * @param HashTable the pointer of hashtable
  */
-void ht_init(i_HashTable * hash_table);
+void ht_init(PinTable * hash_table);
 
 /**
  * @brief insert key-value into hash table
@@ -47,7 +47,7 @@ void ht_init(i_HashTable * hash_table);
  * @param skey key
  * @param nvalue value
  */
-void ht_insert(i_HashTable * hash_table, const char *skey, void *nvalue);
+void ht_insert(PinTable * hash_table, const char *skey, void *nvalue);
 
 /**
  * @brief remove the hash node from hashtable
@@ -56,7 +56,7 @@ void ht_insert(i_HashTable * hash_table, const char *skey, void *nvalue);
  * @param HashTable the hashtable
  * @param skey the key of hashtable you'll remove
  */
-void ht_remove(i_HashTable * hash_table, const char *skey);
+void ht_remove(PinTable * hash_table, const char *skey);
 
 /**
  * @brief [brief description]
@@ -66,7 +66,7 @@ void ht_remove(i_HashTable * hash_table, const char *skey);
  * @param skey [description]
  * @return [description]
  */
-HashNode *ht_lookup(i_HashTable * hash_table, const char *skey);
+HashNode *ht_lookup(PinTable * hash_table, const char *skey);
 
 /**
  * @brief release the hashtable
@@ -74,8 +74,8 @@ HashNode *ht_lookup(i_HashTable * hash_table, const char *skey);
  * 
  * @param hash_table the hashtable
  */
-void ht_release(i_HashTable * hash_table);
+void ht_release(PinTable * hash_table);
 
-void ht_print(i_HashTable * hash_table);
+void ht_print(PinTable * hash_table);
 
 #endif

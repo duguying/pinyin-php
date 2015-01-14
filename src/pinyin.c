@@ -29,7 +29,7 @@
 #include "py_pinyin.h"
 
 static int le_pinyin;
-i_HashTable dict;
+PinTable dict;
 
 const zend_function_entry pinyin_functions[] = {
 	PHP_FE(pinyin, NULL) {NULL, NULL, NULL}	/* Must be the last line in pinyin_functions[] */

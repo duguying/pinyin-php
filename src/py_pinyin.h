@@ -17,15 +17,15 @@
  * initialize pinyin
  * @return
  */
-i_HashTable *pinyin_init(i_HashTable * dict);
+PinTable *pinyin_init(PinTable * dict);
 
 /**
  * get pinyin by chinese char
  * @param  cn chinese char
  * @return pinyin string
  */
-char *pinyin_get(i_HashTable * dict, char *cn);
+char *pinyin_get(PinTable * dict, char *cn);
 
-void pinyin_destroy(i_HashTable * dict);
+void pinyin_destroy(PinTable * dict);
 
 #endif

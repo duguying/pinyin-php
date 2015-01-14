@@ -19,9 +19,9 @@
  * 
  * @param HashTable the pointer of hashtable
  */
-void ht_init(i_HashTable * hash_table)
+void ht_init(PinTable * hash_table)
 {
-	memset(hash_table, 0, sizeof(i_HashTable));
+	memset(hash_table, 0, sizeof(PinTable));
 	hash_table->ht_size = 0;	//the number of key-value pairs in the hash table!
 }
 
@@ -50,7 +50,7 @@ unsigned int ht_hash_str(const char *skey)
  * @param skey key
  * @param nvalue value
  */
-void ht_insert(i_HashTable * hash_table, const char *skey, void *nvalue)
+void ht_insert(PinTable * hash_table, const char *skey, void *nvalue)
 {
 	unsigned int pos;
 	HashNode *pHead;
@@ -80,7 +80,7 @@ void ht_insert(i_HashTable * hash_table, const char *skey, void *nvalue)
 	hash_table->ht_size++;
 }
 
-void ht_print(i_HashTable * hash_table)
+void ht_print(PinTable * hash_table)
 {
 	int i;
 
@@ -104,7 +104,7 @@ void ht_print(i_HashTable * hash_table)
  * @param HashTable the hashtable
  * @param skey the key of hashtable you'll remove
  */
-void ht_remove(i_HashTable * hash_table, const char *skey)
+void ht_remove(PinTable * hash_table, const char *skey)
 {
 	unsigned int pos = ht_hash_str(skey) % HASH_TABLE_MAX_SIZE;
 
@@ -139,7 +139,7 @@ void ht_remove(i_HashTable * hash_table, const char *skey)
  * @param skey [description]
  * @return [description]
  */
-HashNode *ht_lookup(i_HashTable * hash_table, const char *skey)
+HashNode *ht_lookup(PinTable * hash_table, const char *skey)
 {
 	HashNode *pHead;
 	unsigned int pos = ht_hash_str(skey) % HASH_TABLE_MAX_SIZE;
@@ -164,7 +164,7 @@ HashNode *ht_lookup(i_HashTable * hash_table, const char *skey)
  * 
  * @param hash_table the hashtable
  */
-void ht_release(i_HashTable * hash_table)
+void ht_release(PinTable * hash_table)
 {
 	int i;
 	HashNode *pTemp;
@@ -184,5 +184,5 @@ void ht_release(i_HashTable * hash_table)
 		}
 	}
 
-	memset(hash_table, 0, sizeof(i_HashTable));
+	memset(hash_table, 0, sizeof(PinTable));
 }

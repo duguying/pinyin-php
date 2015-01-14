@@ -3,18 +3,20 @@
 #include <string.h>
 #include "hashtable.h"
 #include "py_pinyin.h"
-#include "pinyin.inc"
+
+char cnchar[] = "汉";
+char pinyin[] = "hello";
 
 /**
  * initialize pinyin
  * @return
  */
-i_HashTable *pinyin_init(i_HashTable * dict)
+PinTable *pinyin_init(PinTable * dict)
 {
 	int cn_count, pinyin_arr_count, pinyin_index, i, j, index[MAX_LEN];
 	char tmp[4];
 
-	memset(dict, 0, sizeof(i_HashTable));
+	memset(dict, 0, sizeof(PinTable));
 	ht_init(dict);
 
 	cn_count = strlen(cnchar) / 3;
@@ -52,7 +54,7 @@ i_HashTable *pinyin_init(i_HashTable * dict)
  * @param  cn chinese char
  * @return pinyin string
  */
-char *pinyin_get(i_HashTable * dict, char *cn)
+char *pinyin_get(PinTable * dict, char *cn)
 {
 	char single_cn_buf[JMP + 1];
 	unsigned int len = 0;
@@ -113,7 +115,7 @@ char *pinyin_get(i_HashTable * dict, char *cn)
  * @details [long description]
  * 
  */
-void pinyin_destroy(i_HashTable * dict)
+void pinyin_destroy(PinTable * dict)
 {
 	ht_release(dict);
 }
