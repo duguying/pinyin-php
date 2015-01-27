@@ -39,9 +39,16 @@ set(
 	./src/hashtable.c
 	./src/py_pinyin.c
 )
-add_library(php_pinyin SHARED ${PY_LIST})
 
-target_link_libraries(php_pinyin php5ts)
+set(
+    PY_TEST
+    ./src/hashtable.c
+    ./src/py_pinyin.c
+    ./src/test_pinyin.c
+)
 
+# add_library(php_pinyin SHARED ${PY_LIST})
+# target_link_libraries(php_pinyin php5ts)
 
+add_executable(pinyin_test ${PY_TEST})
 
