@@ -22,15 +22,15 @@ add_definitions(
 set(PHPSDK "C:/php/SDK")
 
 link_directories(
-	"${PHPSDK}/lib"
+	# "${PHPSDK}/lib"
 	# "D:/wamp/bin/php/php5.3.10/dev"
 )
 include_directories(
-	"${PHPSDK}/include"
-	"${PHPSDK}/include/main"
-	"${PHPSDK}/include/TSRM"
-	"${PHPSDK}/include/win32"
-	"${PHPSDK}/include/Zend"
+	# "${PHPSDK}/include"
+	# "${PHPSDK}/include/main"
+	# "${PHPSDK}/include/TSRM"
+	# "${PHPSDK}/include/win32"
+	# "${PHPSDK}/include/Zend"
 )
 
 set(
