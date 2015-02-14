@@ -8,36 +8,19 @@ char cnchar[] = "汉";
 char pinyin[] = "hello";
 
 /**
- * load char dictionary
- */
-void load_char(const char* filename){
-	long length = file_size_count(filename);
-	char* content = file_open(filename);
-
-	free_buffer(content);
-}
-
-/**
- * load words dictionary
- */
-void load_word(const char* filename){
-	long length = file_size_count(filename);
-	char content = file_open(filename);
-
-	free_buffer(content);
-}
-
-/**
  * get the size of text file
  * @param filename
  * @return size of file
  */
-long* file_size_count(const char* filename){
+long file_size_count(const char* filename){
 	FILE* fp;
+	long long_bytes = 0;
+
 	fp = fopen(filename, "rb");
 	fseek(fp, 0, SEEK_SET);
 	fseek(fp, 0, SEEK_END);
-	long long_bytes = ftell(fp);
+	long_bytes = ftell(fp);
+	
 	return long_bytes;
 }
 
@@ -78,6 +61,32 @@ int free_buffer(char* buffer){
 	free(buffer);
 	buffer = NULL;
 	return 0;
+}
+
+/**
+ * load char dictionary
+ */
+void load_char(const char* filename){
+	long length = 0;
+	char* content = NULL;
+
+	length = file_size_count(filename);
+	content = file_open(filename);
+
+	free_buffer(content);
+}
+
+/**
+ * load words dictionary
+ */
+void load_word(const char* filename){
+	long length = 0;
+	char* content = NULL;
+
+	length = file_size_count(filename);
+	content = file_open(filename);
+
+	free_buffer(content);
 }
 
 /**
