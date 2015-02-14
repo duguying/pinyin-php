@@ -66,20 +66,58 @@ int free_buffer(char* buffer){
 /**
  * load char dictionary
  */
-void load_char(const char* filename){
+void load_char(const char* filename, PinTable * dict){
 	long length = 0;
 	char* content = NULL;
+	char* buffer = NULL;
+	long idx = 0;
+	char cur_char = 0;
+	char* key = 0;
+	char* value = 0;
+	char* value_container = 0;
 
 	length = file_size_count(filename);
-	content = file_open(filename);
+	buffer = file_open(filename);
+	content = buffer;
 
-	free_buffer(content);
+	while(1){
+		cur_char = content[idx];
+
+		if (',' == cur_char){
+			content[idx] = 0;
+			key = content;
+			// printf("%s:", key);
+
+			content = content + idx + 1;
+			idx = 0;
+		}
+
+		if ('\n' == cur_char){
+			content[idx] = 0;
+			value = content;
+			// printf("%s\n", value);
+
+			content = content + idx + 1;
+			idx = 0;
+
+			value_container = (char*)malloc(idx * sizeof(char));
+			memset(value_container, 0, idx * sizeof(char));
+			ht_insert(dict, key, value);
+		}
+
+		idx++;
+		if (idx > length){
+			break;
+		}
+	}
+
+	free_buffer(buffer);
 }
 
 /**
  * load words dictionary
  */
-void load_word(const char* filename){
+void load_word(const char* filename, PinTable * dict){
 	long length = 0;
 	char* content = NULL;
 
@@ -101,31 +139,33 @@ PinTable *pinyin_init(PinTable * dict)
 	memset(dict, 0, sizeof(PinTable));
 	ht_init(dict);
 
-	cn_count = strlen(cnchar) / 3;
-	pinyin_arr_count = strlen(pinyin);
+	load_char("/Users/rex/code/pinyin-php/data/chars.csv", dict);
 
-	pinyin_index = 0;
-	for (j = 0; j < pinyin_arr_count; j++) {
-		if (pinyin[j] == '|') {
-			index[pinyin_index] = j;
-			pinyin_index++;
-		}
-	}
+	// cn_count = strlen(cnchar) / 3;
+	// pinyin_arr_count = strlen(pinyin);
 
-	for (j = 0; j < cn_count; j++) {
-		strtok(pinyin + index[j] + 1, "|");	//cnchar
-	}
+	// pinyin_index = 0;
+	// for (j = 0; j < pinyin_arr_count; j++) {
+	// 	if (pinyin[j] == '|') {
+	// 		index[pinyin_index] = j;
+	// 		pinyin_index++;
+	// 	}
+	// }
 
-	for (i = 0; i < cn_count; i++) {
-		char *tmp_py;
+	// for (j = 0; j < cn_count; j++) {
+	// 	strtok(pinyin + index[j] + 1, "|");	//cnchar
+	// }
 
-		memset(tmp, 0, sizeof(char) * 4);
-		strncpy(tmp, (cnchar + JMP * (i)), JMP);
+	// for (i = 0; i < cn_count; i++) {
+	// 	char *tmp_py;
 
-		tmp_py = (pinyin + index[i] + 1);
+	// 	memset(tmp, 0, sizeof(char) * 4);
+	// 	strncpy(tmp, (cnchar + JMP * (i)), JMP);
 
-		ht_insert(dict, tmp, tmp_py);
-	}
+	// 	tmp_py = (pinyin + index[i] + 1);
+
+	// 	ht_insert(dict, tmp, tmp_py);
+	// }
 
 	//ht_print(dict);
 	return dict;
