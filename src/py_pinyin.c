@@ -86,8 +86,6 @@ void load_char(const char* filename, PinTable * dict){
 		if (',' == cur_char){
 			content[idx] = 0;
 			key = content;
-			// printf("%s:", key);
-
 			content = content + idx + 1;
 			idx = 0;
 		}
@@ -95,14 +93,12 @@ void load_char(const char* filename, PinTable * dict){
 		if ('\n' == cur_char){
 			content[idx] = 0;
 			value = content;
-			// printf("%s\n", value);
-
 			content = content + idx + 1;
 			idx = 0;
 
 			value_container = (char*)malloc(idx * sizeof(char));
 			memset(value_container, 0, idx * sizeof(char));
-			ht_insert(dict, key, value);
+			// ht_insert(dict, key, value);
 		}
 
 		idx++;
@@ -115,14 +111,58 @@ void load_char(const char* filename, PinTable * dict){
 }
 
 /**
+ * filt comma in the string
+ * this will alloc a string buffer, please free after use
+ * @param string [description]
+ */
+char* filt_comma(char* string){
+	char cur_char = 0;
+	int idx = 0;
+	int i = 0;
+	char* buffer = 0;
+	int len = 0;
+
+	len = strlen(string) * sizeof(char) + 1;
+	buffer = (char*)malloc(len);
+	memset(buffer, 0, len);
+	strncpy(buffer, string, len);
+	buffer[len] = 0;
+
+	while(1){
+		cur_char = string[idx++];
+
+		if (',' != cur_char){
+			buffer[i++] = cur_char;
+		}
+
+		if (idx > strlen(string)){
+			break;
+		}
+	}
+
+	return buffer;
+}
+
+/**
  * load words dictionary
  */
 void load_word(const char* filename, PinTable * dict){
 	long length = 0;
 	char* content = NULL;
+	char* buffer = NULL;
+	long idx = 0;
+	char cur_char = 0;
+	char* key = 0;
+	char* value = 0;
+	char* value_container = 0;
 
 	length = file_size_count(filename);
-	content = file_open(filename);
+	buffer = file_open(filename);
+	content = buffer;
+
+	while(1){
+		;
+	}
 
 	free_buffer(content);
 }
@@ -140,34 +180,13 @@ PinTable *pinyin_init(PinTable * dict)
 	ht_init(dict);
 
 	load_char("/Users/rex/code/pinyin-php/data/chars.csv", dict);
+	// load_word("/Users/rex/code/pinyin-php/data/words.csv", dict);
 
-	// cn_count = strlen(cnchar) / 3;
-	// pinyin_arr_count = strlen(pinyin);
+	char buf[100] = "hello,words,not,world";
+	char* rst = filt_comma(buf);
 
-	// pinyin_index = 0;
-	// for (j = 0; j < pinyin_arr_count; j++) {
-	// 	if (pinyin[j] == '|') {
-	// 		index[pinyin_index] = j;
-	// 		pinyin_index++;
-	// 	}
-	// }
+	printf("[%s]\n", rst);
 
-	// for (j = 0; j < cn_count; j++) {
-	// 	strtok(pinyin + index[j] + 1, "|");	//cnchar
-	// }
-
-	// for (i = 0; i < cn_count; i++) {
-	// 	char *tmp_py;
-
-	// 	memset(tmp, 0, sizeof(char) * 4);
-	// 	strncpy(tmp, (cnchar + JMP * (i)), JMP);
-
-	// 	tmp_py = (pinyin + index[i] + 1);
-
-	// 	ht_insert(dict, tmp, tmp_py);
-	// }
-
-	//ht_print(dict);
 	return dict;
 }
 
