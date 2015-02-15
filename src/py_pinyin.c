@@ -99,16 +99,13 @@ void load_char(const char* filename, PinTable * dict){
 			i++;
 			idx = 0;
 
-			value_container = (char*)malloc(idx * sizeof(char));
-			memset(value_container, 0, idx * sizeof(char));
-			// ht_insert(dict, key, value);
+			ht_insert(dict, key, value);
 		}
 
 		idx++;
 		i++;
 
 		if (i > length){
-			printf("[%ld]:[%ld]\n", i ,length);
 			break;
 		}
 	}
@@ -176,7 +173,10 @@ void load_word(const char* filename, PinTable * dict){
 			comma_flag = 0;
 			content[idx] = 0;
 			value = content;
-			printf("%s\n", value);
+
+			// insert into hashtable
+			value = filt_comma(value);
+			ht_insert(dict, key, value);
 
 			content = content + idx + 1;
 			i++;
@@ -188,7 +188,6 @@ void load_word(const char* filename, PinTable * dict){
 				/* the 1st comma */
 				content[idx] = 0;
 				key = content;
-				printf("%s: ", key);
 
 				content = content + idx + 1;
 				i++;
@@ -200,9 +199,7 @@ void load_word(const char* filename, PinTable * dict){
 		idx++;
 		i++;
 
-		// printf("idx[%ld][%ld]\n", idx, i);
 		if (i > length){
-			// printf("[%ld]:[%ld]\n", i, length);
 			break;
 		}
 	}

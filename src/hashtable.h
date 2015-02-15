@@ -14,7 +14,7 @@
 #ifndef _HASHTABLE_H_
 #define _HASHTABLE_H_
 
-#define HASH_TABLE_MAX_SIZE 10000
+#define HASH_TABLE_MAX_SIZE 100000
 
 typedef struct HashNode HashNode;
 
