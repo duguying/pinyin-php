@@ -71,6 +71,7 @@ void load_char(const char* filename, PinTable * dict){
 	char* content = NULL;
 	char* buffer = NULL;
 	long idx = 0;
+	long i = 0;
 	char cur_char = 0;
 	char* key = 0;
 	char* value = 0;
@@ -87,6 +88,7 @@ void load_char(const char* filename, PinTable * dict){
 			content[idx] = 0;
 			key = content;
 			content = content + idx + 1;
+			i++;
 			idx = 0;
 		}
 
@@ -94,6 +96,7 @@ void load_char(const char* filename, PinTable * dict){
 			content[idx] = 0;
 			value = content;
 			content = content + idx + 1;
+			i++;
 			idx = 0;
 
 			value_container = (char*)malloc(idx * sizeof(char));
@@ -102,7 +105,10 @@ void load_char(const char* filename, PinTable * dict){
 		}
 
 		idx++;
-		if (idx > length){
+		i++;
+
+		if (i > length){
+			printf("[%ld]:[%ld]\n", i ,length);
 			break;
 		}
 	}
@@ -151,20 +157,59 @@ void load_word(const char* filename, PinTable * dict){
 	char* content = NULL;
 	char* buffer = NULL;
 	long idx = 0;
+	long i = 0;
 	char cur_char = 0;
 	char* key = 0;
 	char* value = 0;
 	char* value_container = 0;
+	int comma_flag = 0;
 
 	length = file_size_count(filename);
 	buffer = file_open(filename);
 	content = buffer;
 
 	while(1){
-		;
+
+		cur_char = content[idx];
+
+		if (cur_char == '\n'){
+			comma_flag = 0;
+			content[idx] = 0;
+			value = content;
+			printf("%s\n", value);
+
+			content = content + idx + 1;
+			i++;
+			idx = 0;
+		};
+
+		if (cur_char == ','){
+			if (comma_flag == 0){
+				/* the 1st comma */
+				content[idx] = 0;
+				key = content;
+				printf("%s: ", key);
+
+				content = content + idx + 1;
+				i++;
+				idx = 0;
+			}
+			comma_flag = 1;
+		}
+
+		idx++;
+		i++;
+
+		// printf("idx[%ld][%ld]\n", idx, i);
+		if (i > length){
+			// printf("[%ld]:[%ld]\n", i, length);
+			break;
+		}
 	}
 
-	free_buffer(content);
+
+
+	free_buffer(buffer);
 }
 
 /**
@@ -180,12 +225,12 @@ PinTable *pinyin_init(PinTable * dict)
 	ht_init(dict);
 
 	load_char("/Users/rex/code/pinyin-php/data/chars.csv", dict);
-	// load_word("/Users/rex/code/pinyin-php/data/words.csv", dict);
+	load_word("/Users/rex/code/pinyin-php/data/words.csv", dict);
 
-	char buf[100] = "hello,words,not,world";
-	char* rst = filt_comma(buf);
+	// char buf[100] = "hello,words,not,world";
+	// char* rst = filt_comma(buf);
 
-	printf("[%s]\n", rst);
+	// printf("[%s]\n", rst);
 
 	return dict;
 }
