@@ -25,7 +25,7 @@ PinTable *pinyin_init(PinTable * dict);
  * @param  raw raw string
  * @return     pinyin string
  */
-char* pinyin_translate(char* raw);
+char* pinyin_translate(char* raw, PinTable * dict);
 
 void pinyin_destroy(PinTable * dict);
 

@@ -8,9 +8,9 @@ int main(int argc, char const *argv[])
 
     PinTable dict;
 	pinyin_init(&dict);
-	pinyin = pinyin_translate(source);
+	pinyin = pinyin_translate(source, &dict);
 
-    ht_print(&dict);
+    // ht_print(&dict);
 
 	return 0;
 }

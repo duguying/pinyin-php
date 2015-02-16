@@ -214,8 +214,37 @@ void load_word(const char* filename, PinTable * dict){
  * @param  raw raw string
  * @return     pinyin string
  */
-char* pinyin_translate(char* raw){
+char* pinyin_translate(char* raw, PinTable * dict){
 	int max_cut_len = MAX_CUT_LEN * 2;
+	int length = strlen(raw);
+	int idx = 0;
+	int chr_idx = 0;
+	int flag_idx = 0;
+	char* buffer = 0;
+
+	buffer = (char*)malloc(max_cut_len);
+	memset(buffer, 0, max_cut_len);
+
+	for(idx = 0; idx < length; idx++){
+		flag_idx = idx;
+		chr_idx = length - idx;
+		buffer[max_cut_len - flag_idx] = raw[chr_idx];
+		
+		if (flag_idx > max_cut_len){
+			flag_idx = flag_idx - max_cut_len;
+		}
+
+		// get the fragment string
+		if (flag_idx == max_cut_len){
+			printf("[%d] %s", idx, buffer);
+
+			// deal with fragment
+			ht_lookup(dict, buffer); //TODO
+			
+			memset(buffer, 0, max_cut_len);
+		}
+	}
+
 	return 0;
 }
 
