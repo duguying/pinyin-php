@@ -7,6 +7,7 @@
 
 #define DE '|'
 #define MAX_LEN 10000
+#define MAX_CUT_LEN 10
 #if defined _WIN32
 #define JMP 2
 #else
@@ -20,11 +21,11 @@
 PinTable *pinyin_init(PinTable * dict);
 
 /**
- * get pinyin by chinese char
- * @param  cn chinese char
- * @return pinyin string
+ * translate chinese sentence into pinyin
+ * @param  raw raw string
+ * @return     pinyin string
  */
-char *pinyin_get(PinTable * dict, char *cn);
+char* pinyin_translate(char* raw);
 
 void pinyin_destroy(PinTable * dict);
 

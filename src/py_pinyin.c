@@ -210,6 +210,16 @@ void load_word(const char* filename, PinTable * dict){
 }
 
 /**
+ * translate chinese sentence into pinyin
+ * @param  raw raw string
+ * @return     pinyin string
+ */
+char* pinyin_translate(char* raw){
+	int max_cut_len = MAX_CUT_LEN * 2;
+	return 0;
+}
+
+/**
  * initialize pinyin
  * @return
  */
@@ -224,73 +234,7 @@ PinTable *pinyin_init(PinTable * dict)
 	load_char("/Users/rex/code/pinyin-php/data/chars.csv", dict);
 	load_word("/Users/rex/code/pinyin-php/data/words.csv", dict);
 
-	// char buf[100] = "hello,words,not,world";
-	// char* rst = filt_comma(buf);
-
-	// printf("[%s]\n", rst);
-
 	return dict;
-}
-
-/**
- * get pinyin by chinese char
- * @param  cn chinese char
- * @return pinyin string
- */
-char *pinyin_get(PinTable * dict, char *cn)
-{
-	char single_cn_buf[JMP + 1];
-	unsigned int len = 0;
-	unsigned int len_pybuf = 0;
-	unsigned int flag_cnchar_buf = 0;
-	char *pybuf = NULL;
-	char *pybuf_pos = NULL;
-	unsigned int i = 0;
-
-	len = strlen(cn);
-	len_pybuf = (len / 2) * 7 + 1;
-	pybuf_pos = pybuf = (char *)malloc(len_pybuf);
-	memset(pybuf, 0, len_pybuf);
-	memset(single_cn_buf, 0, JMP + 1);
-
-	// strip ascii
-	for (i = 0; i < len; ++i) {
-
-		if (cn[i] < 0) {		// chinese char
-			if ((JMP - 1) != flag_cnchar_buf) {
-				single_cn_buf[flag_cnchar_buf] = cn[i];
-				++flag_cnchar_buf;
-			} else {
-				char *single_cn_pinyin = NULL;
-				unsigned int len_of_py = 0;
-				HashNode *result_node = NULL;
-
-				single_cn_buf[flag_cnchar_buf] = cn[i];
-				flag_cnchar_buf = 0;
-				// translate
-
-				result_node = (HashNode *) ht_lookup(dict, single_cn_buf);
-
-				if (NULL == result_node) {
-					len_of_py = strlen(single_cn_buf);
-					strncpy(pybuf_pos, single_cn_buf, len_of_py);
-					pybuf_pos += len_of_py;
-				} else {
-					single_cn_pinyin = (char *)result_node->nValue;
-					len_of_py = strlen(single_cn_pinyin);
-					strncpy(pybuf_pos, single_cn_pinyin, len_of_py);
-					pybuf_pos += len_of_py;
-				}
-
-				memset(single_cn_buf, 0, JMP + 1);
-			}
-		} else {				// other
-			memset(pybuf_pos, cn[i], 1);
-			++pybuf_pos;
-		}
-	}
-
-	return pybuf;
 }
 
 /**
