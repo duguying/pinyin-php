@@ -210,6 +210,33 @@ void load_word(const char* filename, PinTable * dict){
 }
 
 /**
+ * shift zero for buffer
+ * @param  buffer     buffer
+ * @param  buffer_len buffer length
+ * @return            string after shift
+ */
+char* buffer_shift(char* buffer, int buffer_len){
+	int i = 0;
+	int char_idx = 0;
+
+	while(1){
+		if (buffer[0] == 0){
+			buffer++;
+		}else{
+			return buffer;
+		}
+
+		if (i == buffer_len - 1){
+			break;
+		}
+
+		i++;
+	}
+
+	return buffer;
+}
+
+/**
  * translate chinese sentence into pinyin
  * @param  raw raw string
  * @return     pinyin string
@@ -222,24 +249,25 @@ char* pinyin_translate(char* raw, PinTable * dict){
 	int flag_idx = 0;
 	char* buffer = 0;
 
-	buffer = (char*)malloc(max_cut_len);
-	memset(buffer, 0, max_cut_len);
+	buffer = (char*)malloc(max_cut_len + 1);
+	memset(buffer, 0, max_cut_len + 1);
 
 	for(idx = 0; idx < length; idx++){
-		flag_idx = idx;
-		chr_idx = length - idx;
-		buffer[max_cut_len - flag_idx] = raw[chr_idx];
+		flag_idx = idx % max_cut_len;
 		
-		if (flag_idx > max_cut_len){
-			flag_idx = flag_idx - max_cut_len;
-		}
-
+		chr_idx = length - 1 - idx;
+		buffer[max_cut_len - 1 - flag_idx] = raw[chr_idx];
+		
 		// get the fragment string
-		if (flag_idx == max_cut_len){
-			printf("[%d] %s", idx, buffer);
+		if (flag_idx == max_cut_len - 1 || idx == length - 1){
+			printf("[%d] %s\n", flag_idx, buffer_shift(buffer, max_cut_len));
 
 			// deal with fragment
 			ht_lookup(dict, buffer); //TODO
+
+			if (idx == length - 1){
+				printf("[%s]\n", "end");
+			}
 			
 			memset(buffer, 0, max_cut_len);
 		}
