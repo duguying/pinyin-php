@@ -236,6 +236,34 @@ char* buffer_shift(char* buffer, int buffer_len){
 	return buffer;
 }
 
+int match_word(char* buffer, PinTable * dict){
+	HashNode* result = NULL;
+	int length = 0;
+	int idx = 0;
+	int back = 0;
+
+	length = strlen(buffer);
+	// printf("will match: %s\n", buffer);
+	for (idx = 0; idx < length; ++idx){
+		result = ht_lookup(dict, buffer + idx);
+		if (result != NULL){
+			buffer = buffer + idx;
+			printf("[matched:%d] %s\n", idx, buffer);
+			return idx;
+		}
+
+		if (idx == length - 1){
+			buffer = buffer + (length - 1);
+			back = length - 1;
+			printf("[back:%d] %s\n", back, buffer);
+
+			return back;
+		}
+	}
+
+	return 0;
+}
+
 /**
  * translate chinese sentence into pinyin
  * @param  raw raw string
@@ -247,6 +275,7 @@ char* pinyin_translate(char* raw, PinTable * dict){
 	int idx = 0;
 	int chr_idx = 0;
 	int flag_idx = 0;
+	int back = 0;
 	char* buffer = 0;
 
 	buffer = (char*)malloc(max_cut_len + 1);
@@ -260,13 +289,17 @@ char* pinyin_translate(char* raw, PinTable * dict){
 		
 		// get the fragment string
 		if (flag_idx == max_cut_len - 1 || idx == length - 1){
-			printf("[%d] %s\n", flag_idx, buffer_shift(buffer, max_cut_len));
+			buffer_shift(buffer, max_cut_len);
+			// printf("[%d] %s\n", flag_idx, buffer_shift(buffer, max_cut_len));
+
+			back = match_word(buffer, dict);
+			idx = idx - back;
 
 			// deal with fragment
-			ht_lookup(dict, buffer); //TODO
+			// ht_lookup(dict, buffer); //TODO
 
 			if (idx == length - 1){
-				printf("[%s]\n", "end");
+				// printf("[%s]\n", "end");
 			}
 			
 			memset(buffer, 0, max_cut_len);
