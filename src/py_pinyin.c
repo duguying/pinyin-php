@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <locale.h>
 #include "hashtable.h"
 #include "py_pinyin.h"
 
@@ -308,6 +309,7 @@ char* pinyin_translate(char* raw, PinTable * dict){
 	int back = 0;
 	char* buffer = 0;
 
+	setlocale(LC_ALL,"zh_CN.UTF-8");
 
 	buffer = (char*)malloc(max_cut_len + 1);
 	memset(buffer, 0, max_cut_len + 1);
