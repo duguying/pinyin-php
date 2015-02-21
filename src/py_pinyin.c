@@ -4,9 +4,6 @@
 #include "hashtable.h"
 #include "py_pinyin.h"
 
-char cnchar[] = "汉";
-char pinyin[] = "hello";
-
 /**
  * get the size of text file
  * @param filename
@@ -236,6 +233,29 @@ char* buffer_shift(char* buffer, int buffer_len){
 	return buffer;
 }
 
+/**
+ * append a string seg before tail
+ * @param appendage appendage -- just a string
+ * @param tail      tail -- tail buffer should be create by malloc
+ */
+char* head_append(char* appendage,char* tail){
+	int tail_len = 0;
+	int appendage_len = 0;
+	int total_len = 0;
+	char* new_string = 0;
+
+	tail_len = strlen(tail);
+	appendage_len = strlen(appendage);
+	total_len = tail_len + appendage_len;
+
+	new_string = realloc(tail, total_len);
+	strncpy(new_string + appendage_len, new_string, tail_len);
+	strncpy(new_string, appendage, appendage_len);
+
+	return new_string;
+
+}
+
 int match_word(char* buffer, PinTable * dict){
 	HashNode* result = NULL;
 	int length = 0;
@@ -295,6 +315,8 @@ char* pinyin_translate(char* raw, PinTable * dict){
 			back = match_word(buffer, dict);
 			idx = idx - back;
 
+			// printf("[%d]%s\n", back, buffer + back);
+
 			// deal with fragment
 			// ht_lookup(dict, buffer); //TODO
 
@@ -317,6 +339,7 @@ PinTable *pinyin_init(PinTable * dict)
 {
 	int cn_count, pinyin_arr_count, pinyin_index, i, j, index[MAX_LEN];
 	char tmp[4];
+	char* test = "hello world";
 
 	memset(dict, 0, sizeof(PinTable));
 	ht_init(dict);
