@@ -4,6 +4,8 @@
 #include "hashtable.h"
 #include "py_pinyin.h"
 
+char* result_buffer = 0;
+
 /**
  * get the size of text file
  * @param filename
@@ -238,7 +240,7 @@ char* buffer_shift(char* buffer, int buffer_len){
  * @param appendage appendage -- just a string
  * @param tail      tail -- tail buffer should be create by malloc
  */
-char* head_append(char* appendage,char* tail){
+char* head_append(char* appendage, char* tail){
 	int tail_len = 0;
 	int appendage_len = 0;
 	int total_len = 0;
@@ -249,11 +251,10 @@ char* head_append(char* appendage,char* tail){
 	total_len = tail_len + appendage_len;
 
 	new_string = realloc(tail, total_len);
-	strncpy(new_string + appendage_len, new_string, tail_len);
-	strncpy(new_string, appendage, appendage_len);
-
+	memcpy(new_string + appendage_len, new_string, tail_len);
+	memcpy(new_string, appendage, appendage_len);
+	
 	return new_string;
-
 }
 
 int match_word(char* buffer, PinTable * dict){
@@ -268,14 +269,21 @@ int match_word(char* buffer, PinTable * dict){
 		result = ht_lookup(dict, buffer + idx);
 		if (result != NULL){
 			buffer = buffer + idx;
-			printf("[matched:%d] %s\n", idx, buffer);
+			// printf("[matched:%d] %s\n", idx, buffer);
+			
+			// result_buffer = head_append(buffer, result_buffer);
+			result_buffer = head_append(buffer, result_buffer);
+			// printf("[%lu] %s\n", strlen(buffer), result_buffer);
+
 			return idx;
 		}
 
 		if (idx == length - 1){
 			buffer = buffer + (length - 1);
 			back = length - 1;
-			printf("[back:%d] %s\n", back, buffer);
+			// printf("[back:%d] %s\n", back, buffer);
+
+			result_buffer = head_append(buffer, result_buffer);
 
 			return back;
 		}
@@ -298,8 +306,11 @@ char* pinyin_translate(char* raw, PinTable * dict){
 	int back = 0;
 	char* buffer = 0;
 
+
 	buffer = (char*)malloc(max_cut_len + 1);
 	memset(buffer, 0, max_cut_len + 1);
+	result_buffer = (char*)malloc(1);
+	memset(result_buffer, 0, 1);
 
 	for(idx = 0; idx < length; idx++){
 		flag_idx = idx % max_cut_len;
@@ -328,6 +339,8 @@ char* pinyin_translate(char* raw, PinTable * dict){
 		}
 	}
 
+	printf("%s\n", result_buffer);
+
 	return 0;
 }
 
@@ -346,6 +359,13 @@ PinTable *pinyin_init(PinTable * dict)
 
 	load_char("/Users/rex/code/pinyin-php/data/chars.csv", dict);
 	load_word("/Users/rex/code/pinyin-php/data/words.csv", dict);
+
+	// result_buffer = (char*)malloc(1);
+	// memset(result_buffer, 0, 1);
+
+	// result_buffer = head_append(test, result_buffer);
+	// result_buffer = head_append(test, result_buffer);
+	// printf("%s\n", result_buffer);
 
 	return dict;
 }
