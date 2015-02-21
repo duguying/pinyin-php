@@ -250,9 +250,10 @@ char* head_append(char* appendage, char* tail){
 	appendage_len = strlen(appendage);
 	total_len = tail_len + appendage_len;
 
-	new_string = realloc(tail, total_len);
+	new_string = realloc(tail, total_len + 1);
 	memcpy(new_string + appendage_len, new_string, tail_len);
 	memcpy(new_string, appendage, appendage_len);
+	new_string[total_len] = 0;
 	
 	return new_string;
 }
@@ -268,12 +269,13 @@ int match_word(char* buffer, PinTable * dict){
 	for (idx = 0; idx < length; ++idx){
 		result = ht_lookup(dict, buffer + idx);
 		if (result != NULL){
+			char* trans_result = 0;
+
 			buffer = buffer + idx;
+			trans_result = result->nValue;
 			// printf("[matched:%d] %s\n", idx, buffer);
 			
-			// result_buffer = head_append(buffer, result_buffer);
-			result_buffer = head_append(buffer, result_buffer);
-			// printf("[%lu] %s\n", strlen(buffer), result_buffer);
+			result_buffer = head_append(trans_result, result_buffer);
 
 			return idx;
 		}
@@ -320,16 +322,11 @@ char* pinyin_translate(char* raw, PinTable * dict){
 		
 		// get the fragment string
 		if (flag_idx == max_cut_len - 1 || idx == length - 1){
-			buffer_shift(buffer, max_cut_len);
-			// printf("[%d] %s\n", flag_idx, buffer_shift(buffer, max_cut_len));
+			char* tmp_buffer = 0;
 
-			back = match_word(buffer, dict);
+			tmp_buffer = buffer_shift(buffer, max_cut_len);
+			back = match_word(tmp_buffer, dict);
 			idx = idx - back;
-
-			// printf("[%d]%s\n", back, buffer + back);
-
-			// deal with fragment
-			// ht_lookup(dict, buffer); //TODO
 
 			if (idx == length - 1){
 				// printf("[%s]\n", "end");
