@@ -66,8 +66,8 @@ PHP_MINIT_FUNCTION(pinyin)
 	REGISTER_INI_ENTRIES();
 
 	pinyin_init(&dict);
-	load_char(INI_STR("pinyin.chars"), &dict);
 	load_word(INI_STR("pinyin.words"), &dict);
+	load_char(INI_STR("pinyin.chars"), &dict);
 
     return SUCCESS;
 }

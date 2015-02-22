@@ -17,10 +17,15 @@ long file_size_count(const char* filename){
 	long long_bytes = 0;
 
 	fp = fopen(filename, "rb");
-	fseek(fp, 0, SEEK_SET);
-	fseek(fp, 0, SEEK_END);
-	long_bytes = ftell(fp);
 	
+    if(fp){
+        fseek(fp, 0, SEEK_SET);
+	    fseek(fp, 0, SEEK_END);
+	    long_bytes = ftell(fp);
+    }else{
+        printf("open file failed.\n");
+    }
+
 	return long_bytes;
 }
 
@@ -82,7 +87,7 @@ void load_char(const char* filename, PinTable * dict){
 
 	length = file_size_count(filename);
 	buffer = file_open(filename);
-	content = buffer;
+    content = buffer;
 
 	while(1){
 		cur_char = content[idx];
@@ -96,13 +101,19 @@ void load_char(const char* filename, PinTable * dict){
 		}
 
 		if ('\n' == cur_char){
-			content[idx] = 0;
+			char* tmp_value = 0;
+
+            content[idx] = 0;
 			value = content;
 			content = content + idx + 1;
 			i++;
 			idx = 0;
 
-			ht_insert(dict, key, value);
+            tmp_value = (char*)malloc(strlen(value) + 1);
+            memset(tmp_value, 0, strlen(value) + 1);
+            memcpy(tmp_value, value, strlen(value));
+
+			ht_insert(dict, key, tmp_value);
 		}
 
 		idx++;
@@ -132,7 +143,7 @@ char* filt_comma(char* string){
 	buffer = (char*)malloc(len);
 	memset(buffer, 0, len);
 	strncpy(buffer, string, len);
-	buffer[len] = 0;
+	buffer[len-1] = 0;
 
 	while(1){
 		cur_char = string[idx++];
@@ -249,15 +260,24 @@ char* head_append(char* appendage, char* tail){
 	int appendage_len = 0;
 	int total_len = 0;
 	char* new_string = 0;
+    char* exchange_buffer = 0;
 
 	tail_len = strlen(tail);
 	appendage_len = strlen(appendage);
 	total_len = tail_len + appendage_len;
 
+    exchange_buffer = (char*)malloc(tail_len+1);
+    memset(exchange_buffer, 0, tail_len+1);
+    memcpy(exchange_buffer, tail, tail_len);
+
 	new_string = realloc(tail, total_len + 1);
-	memcpy(new_string + appendage_len, new_string, tail_len);
+	// memcpy(new_string + appendage_len, new_string, tail_len);
 	memcpy(new_string, appendage, appendage_len);
+    memcpy(new_string + appendage_len, exchange_buffer, tail_len);
 	new_string[total_len] = 0;
+
+    free(exchange_buffer);
+    // printf("[%s|%s]\n", appendage, tail);
 	
 	return new_string;
 }
@@ -279,6 +299,7 @@ int match_word(wchar_t* buffer, PinTable * dict){
 		wcstombs(cbuf, buffer + idx, length * sizeof(wchar_t));
 		result = ht_lookup(dict, cbuf);
 		
+        //printf("[s:%s]\n", cbuf);
 
 		if (result != NULL){
 			char* trans_result = 0;
@@ -286,6 +307,8 @@ int match_word(wchar_t* buffer, PinTable * dict){
 			buffer = buffer + idx;
 			trans_result = result->nValue;
 			
+            // printf("[%s:%s]\n", cbuf, trans_result);
+
 			result_buffer = head_append(trans_result, result_buffer);
 
 			return idx;
@@ -362,6 +385,8 @@ char* pinyin_translate(char* raw, PinTable * dict){
 	buffer = 0;
 	free(wraw);
 	wraw = 0;
+
+    result_buffer[strlen(result_buffer)] = 0;
 
 	return result_buffer;
 }
