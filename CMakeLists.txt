@@ -22,26 +22,33 @@ add_definitions(
 set(PHPSDK "C:/php/SDK")
 
 link_directories(
-	"${PHPSDK}/lib"
+	# "${PHPSDK}/lib"
 	# "D:/wamp/bin/php/php5.3.10/dev"
 )
 include_directories(
-	"${PHPSDK}/include"
-	"${PHPSDK}/include/main"
-	"${PHPSDK}/include/TSRM"
-	"${PHPSDK}/include/win32"
-	"${PHPSDK}/include/Zend"
+	# "${PHPSDK}/include"
+	# "${PHPSDK}/include/main"
+	# "${PHPSDK}/include/TSRM"
+	# "${PHPSDK}/include/win32"
+	# "${PHPSDK}/include/Zend"
 )
 
 set(
 	PY_LIST
-	./pinyin.c
-	./py_hashtable.c
-	./py_pinyin.c
+	./src/pinyin.c
+	./src/hashtable.c
+	./src/py_pinyin.c
 )
-add_library(php_pinyin SHARED ${PY_LIST})
 
-target_link_libraries(php_pinyin php5ts)
+set(
+    PY_TEST
+    ./src/hashtable.c
+    ./src/py_pinyin.c
+    ./src/test_pinyin.c
+)
 
+# add_library(php_pinyin SHARED ${PY_LIST})
+# target_link_libraries(php_pinyin php5ts)
 
+add_executable(pinyin_test ${PY_TEST})
 
