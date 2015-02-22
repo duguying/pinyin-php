@@ -19,12 +19,12 @@ int main(int argc, char const *argv[])
 
     // ht_print(&dict);
 
-	char buf[256]={"わたしわ阿飞, and"};
-	setlocale(LC_ALL,"zh_CN.UTF-8");
-	wchar_t ar[256]={'\0'};
-	int read = mbstowcs(ar,buf,strlen(buf)); 
-	printf("%lu\n",strlen(buf)); //输出为：9 [字节] UF-8编码下一个汉字占三个字节3*3=9
-	printf("%d\n",read); //输出为：3 [个数] “你好啊”三个子字个数
+	// char buf[256]={"わたしわ阿飞, and"};
+	// setlocale(LC_ALL,"zh_CN.UTF-8");
+	// wchar_t ar[256]={'\0'};
+	// int read = mbstowcs(ar,buf,strlen(buf)); 
+	// printf("%lu\n",strlen(buf)); //输出为：9 [字节] UF-8编码下一个汉字占三个字节3*3=9
+	// printf("%d\n",read); //输出为：3 [个数] “你好啊”三个子字个数
 
 	return 0;
 }

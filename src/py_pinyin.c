@@ -215,7 +215,7 @@ void load_word(const char* filename, PinTable * dict){
  * @param  buffer_len buffer length
  * @return            string after shift
  */
-char* buffer_shift(char* buffer, int buffer_len){
+wchar_t* buffer_shift(wchar_t* buffer, int buffer_len){
 	int i = 0;
 	int char_idx = 0;
 
@@ -259,22 +259,34 @@ char* head_append(char* appendage, char* tail){
 	return new_string;
 }
 
-int match_word(char* buffer, PinTable * dict){
+// TODO
+int match_word(wchar_t* buffer, PinTable * dict){
 	HashNode* result = NULL;
 	int length = 0;
 	int idx = 0;
 	int back = 0;
 
-	length = strlen(buffer);
+	// printf("%x:%x:%x[%d]\n", buffer, buffer+1, buffer+2, sizeof(wchar_t));
+
+	length = wcslen(buffer);
 	// printf("will match: %s\n", buffer);
 	for (idx = 0; idx < length; ++idx){
-		result = ht_lookup(dict, buffer + idx);
+		char* cbuf = 0;
+
+		cbuf = (char*)malloc(length * sizeof(wchar_t));
+		memset(cbuf, 0, length * sizeof(wchar_t));
+		wcstombs(cbuf, buffer + idx, length * sizeof(wchar_t));
+		// printf("[HT]:%s\n", cbuf);
+		result = ht_lookup(dict, cbuf);
+		
+
 		if (result != NULL){
 			char* trans_result = 0;
 
+
 			buffer = buffer + idx;
 			trans_result = result->nValue;
-			// printf("[matched:%d] %s\n", idx, buffer);
+			// printf("[matched:%d] %ls\n", idx, buffer);
 			
 			result_buffer = head_append(trans_result, result_buffer);
 
@@ -284,12 +296,17 @@ int match_word(char* buffer, PinTable * dict){
 		if (idx == length - 1){
 			buffer = buffer + (length - 1);
 			back = length - 1;
-			// printf("[back:%d] %s\n", back, buffer);
+			// printf("[back:%d] %ls\n", back, buffer);
 
-			result_buffer = head_append(buffer, result_buffer);
+			memset(cbuf, 0, length * sizeof(wchar_t));
+			wcstombs(cbuf, buffer, length * sizeof(wchar_t));
+			result_buffer = head_append(cbuf, result_buffer);
 
 			return back;
 		}
+
+		free(cbuf);
+		cbuf = 0;
 	}
 
 	return 0;
@@ -301,40 +318,54 @@ int match_word(char* buffer, PinTable * dict){
  * @return     pinyin string
  */
 char* pinyin_translate(char* raw, PinTable * dict){
-	int max_cut_len = MAX_CUT_LEN * 2;
+	int max_cut_len = MAX_CUT_LEN;
 	int length = strlen(raw);
 	int idx = 0;
 	int chr_idx = 0;
 	int flag_idx = 0;
 	int back = 0;
-	char* buffer = 0;
+	wchar_t* buffer = 0;
+	wchar_t* wraw = 0;
+	int wlen = 0;
 
-	setlocale(LC_ALL,"zh_CN.UTF-8");
+	wraw = (wchar_t*)malloc(sizeof(wchar_t) * length);
+	memset(wraw, 0, sizeof(wchar_t) * length);
 
-	buffer = (char*)malloc(max_cut_len + 1);
-	memset(buffer, 0, max_cut_len + 1);
+	wlen = mbstowcs(wraw, raw, length);
+	// printf("[wraw:%d:%d]%ls\n", wlen, length, wraw);
+
+	// printf("[%d]\n", wcslen(wraw));
+
+	buffer = (wchar_t*)malloc((max_cut_len + 1) * sizeof(wchar_t));
+	memset(buffer, 0, (max_cut_len + 1) * sizeof(wchar_t));
 	result_buffer = (char*)malloc(1);
 	memset(result_buffer, 0, 1);
 
-	for(idx = 0; idx < length; idx++){
+	for(idx = 0; idx < wlen; idx++){
 		flag_idx = idx % max_cut_len;
 		
-		chr_idx = length - 1 - idx;
-		buffer[max_cut_len - 1 - flag_idx] = raw[chr_idx];
+		chr_idx = wlen - 1 - idx;
+		buffer[max_cut_len - 1 - flag_idx] = wraw[chr_idx];
+		
 		
 		// get the fragment string
-		if (flag_idx == max_cut_len - 1 || idx == length - 1){
-			char* tmp_buffer = 0;
+		if (flag_idx == max_cut_len - 1 || idx == wlen - 1){
+			wchar_t* tmp_buffer = 0;
+
+			// printf("[wcs]%ls\n", buffer);
 
 			tmp_buffer = buffer_shift(buffer, max_cut_len);
+			// printf("[H]%ls\n", tmp_buffer);
 			back = match_word(tmp_buffer, dict);
 			idx = idx - back;
 
-			if (idx == length - 1){
+			if (idx == wlen - 1){
 				// printf("[%s]\n", "end");
 			}
 			
-			memset(buffer, 0, max_cut_len);
+			memset(buffer, 0, (max_cut_len + 1) * sizeof(wchar_t));
+
+			// break;// TO Commented
 		}
 	}
 
@@ -358,6 +389,8 @@ PinTable *pinyin_init(PinTable * dict)
 
 	load_char("/Users/rex/code/pinyin-php/data/chars.csv", dict);
 	load_word("/Users/rex/code/pinyin-php/data/words.csv", dict);
+
+	setlocale(LC_ALL,"zh_CN.UTF-8");
 
 	// result_buffer = (char*)malloc(1);
 	// memset(result_buffer, 0, 1);
