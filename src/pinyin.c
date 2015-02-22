@@ -66,8 +66,14 @@ PHP_MINIT_FUNCTION(pinyin)
 	REGISTER_INI_ENTRIES();
 
 	pinyin_init(&dict);
-	load_word(INI_STR("pinyin.words"), &dict);
-	load_char(INI_STR("pinyin.chars"), &dict);
+	
+	if(!access(INI_STR("pinyin.words"), 4)){
+		load_word(INI_STR("pinyin.words"), &dict);
+	}
+
+	if(!access(INI_STR("pinyin.chars"), 4)){
+		load_char(INI_STR("pinyin.chars"), &dict);
+	}
 
     return SUCCESS;
 }
@@ -104,13 +110,20 @@ PHP_FUNCTION(pinyin)
 	char *cn_word;
 	char *pyr;
 	int int_hello_str_length;
+
 	if (zend_parse_parameters
 		(ZEND_NUM_ARGS()TSRMLS_CC, "s", &cn_word,
 		 &int_hello_str_length) == FAILURE) {
 		RETURN_NULL();
 	}
 
-	pyr = pinyin_translate(cn_word, &dict);
+	if(!access(INI_STR("pinyin.words"), 4) && !access(INI_STR("pinyin.chars"), 4)){
+		pyr = pinyin_translate(cn_word, &dict);
+	}else{
+		pyr = cn_word;
+	}
+
+	
 	
 	ZVAL_STRING(return_value, pyr, 1);
 }

@@ -14,8 +14,8 @@ int main(int argc, char const *argv[])
 	pinyin_init(&dict);
 
 //    load_char("/root/pinyin-php/data/chars.csv", &dict);
-    load_word("/root/pinyin-php/data/words.csv", &dict);
-    load_char("/root/pinyin-php/data/chars.csv", &dict);
+    load_word("../data/words.csv", &dict);
+    load_char("../data/chars.csv", &dict);
 
     
     printf("[source] \n%s\n\n", source);
