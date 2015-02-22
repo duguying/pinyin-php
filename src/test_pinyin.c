@@ -17,6 +17,9 @@ int main(int argc, char const *argv[])
 	printf("[transl] \n");
 	pinyin = pinyin_translate(source, &dict);
 
+	printf("%s\n", pinyin);
+	free_buffer(pinyin);
+
     // ht_print(&dict);
 
 	// char buf[256]={"わたしわ阿飞, and"};

@@ -5,14 +5,8 @@
 #ifndef _PINYIN_MOD_H_
 #define _PINYIN_MOD_H_
 
-#define DE '|'
 #define MAX_LEN 10000
 #define MAX_CUT_LEN 10
-#if defined _WIN32
-#define JMP 2
-#else
-#define JMP 3
-#endif
 
 /**
  * initialize pinyin
@@ -27,6 +21,12 @@ PinTable *pinyin_init(PinTable * dict);
  */
 char* pinyin_translate(char* raw, PinTable * dict);
 
+int free_buffer(char* buffer);
+
 void pinyin_destroy(PinTable * dict);
+
+void load_char(const char* filename, PinTable * dict);
+
+void load_word(const char* filename, PinTable * dict);
 
 #endif

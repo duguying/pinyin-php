@@ -63,8 +63,12 @@ PHP_INI_END()
 
 PHP_MINIT_FUNCTION(pinyin)
 {
-	pinyin_init(&dict);
 	REGISTER_INI_ENTRIES();
+
+	pinyin_init(&dict);
+	load_char(INI_STR("pinyin.chars"), &dict);
+	load_word(INI_STR("pinyin.words"), &dict);
+
     return SUCCESS;
 }
 
@@ -89,7 +93,7 @@ PHP_MINFO_FUNCTION(pinyin)
 	php_info_print_table_start();
 	php_info_print_table_header(2, "pinyin support", "enabled");
 	php_info_print_table_row(2, "author", "Rex Lee");
-	php_info_print_table_row(2, "version", "0.3.3");
+	php_info_print_table_row(2, "version", "0.4.0");
 	php_info_print_table_row(2, "function", "string pinyin(string)");
 	php_info_print_table_end();
 
@@ -106,9 +110,7 @@ PHP_FUNCTION(pinyin)
 		RETURN_NULL();
 	}
 
-    //printf("%s\n",INI_STR("pinyin.chars"));
-    //printf("%s\n",INI_STR("pinyin.words"));
-
-	pyr = pinyin_get(&dict, cn_word);
+	pyr = pinyin_translate(cn_word, &dict);
+	
 	ZVAL_STRING(return_value, pyr, 1);
 }
