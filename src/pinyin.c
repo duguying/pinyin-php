@@ -59,6 +59,7 @@ ZEND_GET_MODULE(pinyin)
 PHP_INI_BEGIN()
     PHP_INI_ENTRY("pinyin.chars", "chars.csv", PHP_INI_ALL, NULL)
     PHP_INI_ENTRY("pinyin.words", "words.csv", PHP_INI_ALL, NULL)
+    PHP_INI_ENTRY("pinyin.locale", "zb_CN.UTF-8", PHP_INI_ALL, NULL)
 PHP_INI_END()
 
 PHP_MINIT_FUNCTION(pinyin)
