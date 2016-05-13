@@ -47,7 +47,7 @@ zend_module_entry pinyin_module_entry = {
 	PHP_RSHUTDOWN(pinyin),		/* Replace with NULL if there's nothing to do at request end */
 	PHP_MINFO(pinyin),
 #if ZEND_MODULE_API_NO >= 20010901
-	"0.3",						/* Replace with version number for your extension */
+	"0.5",						/* Replace with version number for your extension */
 #endif
 	STANDARD_MODULE_PROPERTIES
 };
@@ -59,7 +59,7 @@ ZEND_GET_MODULE(pinyin)
 PHP_INI_BEGIN()
     PHP_INI_ENTRY("pinyin.chars", "chars.csv", PHP_INI_ALL, NULL)
     PHP_INI_ENTRY("pinyin.words", "words.csv", PHP_INI_ALL, NULL)
-    PHP_INI_ENTRY("pinyin.locale", "zb_CN.UTF-8", PHP_INI_ALL, NULL)
+    PHP_INI_ENTRY("pinyin.locale", "zh_CN.UTF-8", PHP_INI_ALL, NULL)
 PHP_INI_END()
 
 PHP_MINIT_FUNCTION(pinyin)
@@ -68,14 +68,14 @@ PHP_MINIT_FUNCTION(pinyin)
 
 	pinyin_init(&dict);
 
-	if(!access(INI_STR("pinyin.locale"), 4)){
+	if(strlen(INI_STR("pinyin.locale"))>0){
 		pinyin_set_locale(INI_STR("pinyin.locale"));
 	}else{
 		pinyin_set_locale("zh_CN.UTF-8");
 	}
 	
 	if(!access(INI_STR("pinyin.words"), 4)){
-		load_word(INI_STR("pinyin.words"), &dict);
+	    load_word(INI_STR("pinyin.words"), &dict);
 	}
 
 	if(!access(INI_STR("pinyin.chars"), 4)){
@@ -106,7 +106,7 @@ PHP_MINFO_FUNCTION(pinyin)
 	php_info_print_table_start();
 	php_info_print_table_header(2, "pinyin support", "enabled");
 	php_info_print_table_row(2, "author", "Rex Lee");
-	php_info_print_table_row(2, "version", "0.4.0");
+	php_info_print_table_row(2, "version", "0.5.0");
 	php_info_print_table_row(2, "function", "string pinyin(string)");
 	php_info_print_table_end();
 
