@@ -405,9 +405,13 @@ PinTable *pinyin_init(PinTable * dict)
 	ht_init(dict);
 
 	
-	setlocale(LC_ALL,"zh_CN.UTF-8");
+	// setlocale(LC_ALL,"zh_CN.UTF-8");
 
 	return dict;
+}
+
+void pinyin_set_locale(char* locale){
+	setlocale(LC_ALL,locale);
 }
 
 /**

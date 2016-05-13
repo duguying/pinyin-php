@@ -13,6 +13,8 @@ int main(int argc, char const *argv[])
     PinTable dict;
 	pinyin_init(&dict);
 
+	pinyin_set_locale("zh_CN.UTF-8");
+
 //    load_char("/root/pinyin-php/data/chars.csv", &dict);
     load_word("../data/words.csv", &dict);
     load_char("../data/chars.csv", &dict);

@@ -66,6 +66,12 @@ PHP_MINIT_FUNCTION(pinyin)
 	REGISTER_INI_ENTRIES();
 
 	pinyin_init(&dict);
+
+	if(!access(INI_STR("pinyin.locale"), 4)){
+		pinyin_set_locale(INI_STR("pinyin.locale"));
+	}else{
+		pinyin_set_locale("zh_CN.UTF-8");
+	}
 	
 	if(!access(INI_STR("pinyin.words"), 4)){
 		load_word(INI_STR("pinyin.words"), &dict);
@@ -122,8 +128,6 @@ PHP_FUNCTION(pinyin)
 	}else{
 		pyr = cn_word;
 	}
-
-	
 	
 	ZVAL_STRING(return_value, pyr, 1);
 }

@@ -15,6 +15,11 @@
 PinTable *pinyin_init(PinTable * dict);
 
 /**
+ * set locale lang
+ */
+void pinyin_set_locale(char* locale);
+
+/**
  * translate chinese sentence into pinyin
  * @param  raw raw string
  * @return     pinyin string
