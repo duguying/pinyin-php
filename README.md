@@ -25,6 +25,7 @@ add following into `php.ini`
 ```
 pinyin.chars=/path/to/chars.csv
 pinyin.words=/path/to/words.csv
+pinyin.locale="en_GB.UTF-8"		[optional]
 ```
 
 ## usage
