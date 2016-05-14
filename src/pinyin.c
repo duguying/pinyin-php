@@ -107,8 +107,8 @@ PHP_MINFO_FUNCTION(pinyin)
 	php_info_print_table_header(2, "pinyin support", "enabled");
 	php_info_print_table_row(2, "author", "Rex Lee");
 	php_info_print_table_row(2, "version", "0.5.0");
-	php_info_print_table_row(2, "pinyin.words", (!access(INI_STR("pinyin.words"), 4))?INI_STR("pinyin.words"):"error");
-	php_info_print_table_row(2, "pinyin.chars", (!access(INI_STR("pinyin.chars"), 4))?INI_STR("pinyin.chars"):"error");
+	php_info_print_table_row(2, "pinyin.words", (!access(INI_STR("pinyin.words"), 4))?INI_STR("pinyin.words"):"load error");
+	php_info_print_table_row(2, "pinyin.chars", (!access(INI_STR("pinyin.chars"), 4))?INI_STR("pinyin.chars"):"load error");
 	php_info_print_table_row(2, "pinyin.locale", (strlen(INI_STR("pinyin.locale"))>0)?INI_STR("pinyin.locale"):"zh_CN.UTF-8");
 	php_info_print_table_row(2, "function", "string pinyin(string)");
 	php_info_print_table_end();
