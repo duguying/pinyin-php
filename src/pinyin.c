@@ -133,5 +133,5 @@ PHP_FUNCTION(pinyin)
 		pyr = cn_word;
 	}
 	
-	ZVAL_STRING(return_value, pyr, 1);
+	ZVAL_STRING(return_value, pyr);
 }

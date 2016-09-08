@@ -1,6 +1,9 @@
 # Object files
 *.o
 
+# idea
+.idea/
+
 # Libraries
 *.lib
 *.a
@@ -48,5 +51,6 @@ run-tests.php
 *.la
 *.lo
 *.bat
+*.loT
 
 
